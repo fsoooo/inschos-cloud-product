@@ -24,7 +24,7 @@ public class SocketKit {
      * @param msg
      * @return
      */
-    public static synchronized String tcpPost(String serverIp,int serverPort,String msg){
+    public static  String tcpPost(String serverIp,int serverPort,String msg){
         String rs = "";
 
         if(serverIp==null||"".equals(serverIp)||serverPort<=0){
@@ -43,9 +43,9 @@ public class SocketKit {
             //连接10秒超时
             s.connect(socketAddress,10*1000);
             s.setSendBufferSize(4096);
-            s.setTcpNoDelay(true);
             //读取数据超时
             s.setSoTimeout(10*1000);
+            s.setTcpNoDelay(true);
             s.setKeepAlive(true);
             out = s.getOutputStream();
             in = s.getInputStream();

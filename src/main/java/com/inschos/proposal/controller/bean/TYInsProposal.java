@@ -1,9 +1,9 @@
-package com.inschos.proposal.action.bean;
+package com.inschos.proposal.controller.bean;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.inschos.annotation.EncryptAnnotation;
+import com.inschos.proposal.annotation.EncryptAnnotation;
 
 import java.util.List;
 

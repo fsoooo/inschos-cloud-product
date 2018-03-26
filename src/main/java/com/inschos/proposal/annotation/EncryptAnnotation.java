@@ -1,4 +1,4 @@
-package com.inschos.annotation;
+package com.inschos.proposal.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
