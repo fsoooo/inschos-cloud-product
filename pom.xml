@@ -126,7 +126,7 @@
 
   </dependencies>
   <build>
-    <finalName>ins-proposal</finalName>
+    <finalName>proposal</finalName>
   </build>
 
 </project>
