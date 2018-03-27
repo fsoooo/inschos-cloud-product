@@ -60,8 +60,8 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
-		<property name="mapperLocations" value="classpath:com/bigwei/cloud/mapper/*.xml" />
-		<property name="typeAliasesPackage" value="com.bigwei.cloud.model"></property>
+		<property name="mapperLocations" value="classpath:com/inschos/proposal/mapper/*.xml" />
+		<property name="typeAliasesPackage" value="com.inschos.proposal.model"></property>
 	</bean>
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by IceAnt on 2018/3/24.
  */
-public class NoCarPrPoEnQuery {
+public class NoCarPrPoEnQueryBean {
 
     @JacksonXmlRootElement(localName = "NoCarPrPoEnQueryRequest")
     public static class NoCarPrPoEnQueryRequest{

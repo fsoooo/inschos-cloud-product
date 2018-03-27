@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inschos.proposal.mapper.DemoMapper">
+
+    <sql id="Base_Column_List">
+
+    </sql>
+
+    <insert id="insert" parameterType="Demo">
+        insert into
+        values
+    </insert>
+
+    <update id="update" parameterType="Demo">
+        update _ set
+
+        where `id`=#{id}
+    </update>
+
+    <select id="findOne" parameterType="int" resultType="Demo">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        where `id`=#{id}
+    </select>
+
+</mapper>

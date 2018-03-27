@@ -14,22 +14,14 @@
 	<aop:aspectj-autoproxy />
 
 	<!-- 自动扫描(自动注入) -->
-	<context:component-scan base-package="com.bigwei.cloud.controller.request"
+	<context:component-scan base-package="com.inschos.proposal.controller.request"
 		use-default-filters="false">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
-
-	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- 指定所上传文件的总大小不能超过50M。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
-		<property name="maxUploadSize" value="52428800" />
-	</bean>
-
 	<!--异常处理 -->
-	<bean id="exceptionResolver" class="com.bigwei.cloud.exception.ExceptionHandler" />
+	<bean id="exceptionResolver" class="com.inschos.proposal.exception.ExceptionHandler" />
 
 	<!-- @ResponseBody输出字符串时遇到的乱码解决办法 -->
 	<bean id="stringHttpMessageConverter"

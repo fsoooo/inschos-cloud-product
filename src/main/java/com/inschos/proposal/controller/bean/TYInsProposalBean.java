@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by IceAnt on 2018/3/24.
  */
-public class TYInsProposal {
+public class TYInsProposalBean {
 
     @JacksonXmlRootElement(localName = "TYInsProposalRequest")
     public static class TYInsProposalRequest{
