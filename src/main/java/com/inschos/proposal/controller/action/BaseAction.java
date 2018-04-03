@@ -14,4 +14,5 @@ public class BaseAction {
         response.message = message;
         return JsonKit.bean2Json(response);
     }
+
 }

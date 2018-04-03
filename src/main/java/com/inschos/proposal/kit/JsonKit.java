@@ -20,7 +20,7 @@ public class JsonKit {
             T value = objectMapper.readValue(json, clazz);
             return value;
         } catch (Exception e) {
-            e.printStackTrace();
+            L.log.error("json parse failed : the content is {"+json+"}");
         }
         return null;
     }

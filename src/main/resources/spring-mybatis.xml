@@ -70,7 +70,7 @@
 
 	<!-- mybatis 自动扫描.mapper文件 : MapperScannerConfigurer -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.bigwei.cloud.dao" />
+		<property name="basePackage" value="com.inschos.proposal.mapper" />
 		<property name="sqlSessionTemplateBeanName" value="sqlSession" />
 	</bean>
 
@@ -94,7 +94,7 @@
 	<!-- 定义AOP配置 -->
 	<aop:config>
 		<!-- 定义一个切入点 -->
-		<aop:pointcut expression="execution (* com.bigwei.cloud.service.impl.*.*(..))"
+		<aop:pointcut expression="execution (* com.inschos.proposal.service.impl.*.*(..))"
 			id="services" />
 		<!-- 对切入点和事务的通知，进行适配 -->
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="services" />

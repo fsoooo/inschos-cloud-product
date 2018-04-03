@@ -66,7 +66,7 @@ public class EncryptUtil {
             Cipher c1 = Cipher.getInstance("DESede");
             c1.init(2, deskey);
             byte[] clearByte = c1.doFinal(Decoder.decodeBuffer(input));
-            return new String(clearByte,"GBK");
+            return new String(clearByte);
         } catch (NoSuchAlgorithmException var6) {
             var6.printStackTrace();
         } catch (NoSuchPaddingException var7) {

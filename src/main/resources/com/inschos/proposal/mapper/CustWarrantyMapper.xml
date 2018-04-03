@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inschos.proposal.mapper.CustWarrantyMapper">
+
+    <sql id="Base_Column_List">
+        `id`,`union_order_code`,`warranty_code`,`warranty_uuid`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,
+        `product_id`,`premium`,`start_time`,`end_time`,`ins_company_id`,`count`,`pay_time`,`pay_way`,`by_stages_way`,`is_settlement`,
+        `warranty_url`,`warranty_from`,`type`,`check_status`,`pay_status`,`warranty_status`,`created_at`,`updated_at`,`state`
+    </sql>
+
+    <insert id="insert" parameterType="CustWarranty">
+        insert into cust_warranty(
+          `id`,`union_order_code`,`warranty_code`,`warranty_uuid`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,
+          `product_id`,`premium`,`start_time`,`end_time`,`ins_company_id`,`count`,`pay_time`,`pay_way`,`by_stages_way`,`is_settlement`,
+          `warranty_url`,`warranty_from`,`type`,`check_status`,`pay_status`,`warranty_status`,`created_at`,`updated_at`,`state`
+        )
+        values(
+          #{id},#{union_order_code},#{warranty_code},#{warranty_uuid},#{company_id},#{user_id},#{user_type},#{agent_id},#{ditch_id},#{plan_id},
+          #{product_id},#{premium},#{start_time},#{end_time},#{ins_company_id},#{count},#{pay_time},#{pay_way},#{by_stages_way},#{is_settlement},
+          #{warranty_url},#{warranty_from},#{type},#{check_status},#{pay_status},#{warranty_status},#{created_at},#{updated_at},#{state}
+        )
+    </insert>
+
+    <update id="update" parameterType="CustWarranty">
+        update cust_warranty set
+          `union_order_code`=#{union_order_code},`warranty_code`=#{warranty_code},`warranty_uuid`=#{warranty_uuid},`company_id`=#{company_id},`user_id`=#{user_id},`user_type`=#{user_type},
+          `agent_id`=#{agent_id},`ditch_id`=#{ditch_id},`plan_id`=#{plan_id},`product_id`=#{product_id},`premium`=#{premium},`start_time`=#{start_time},`end_time`=#{end_time},
+          `ins_company_id`=#{ins_company_id},`count`=#{count},`pay_time`=#{pay_time},`pay_way`=#{pay_way},`by_stages_way`=#{by_stages_way},`is_settlement`=#{is_settlement},`warranty_url`=#{warranty_url},
+          `warranty_from`=#{warranty_from},`type`=#{type},`check_status`=#{check_status},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},
+          `created_at`=#{created_at},`updated_at`=#{updated_at},`state`=#{state}
+        where `id`=#{id}
+    </update>
+
+    <select id="findOne" parameterType="int" resultType="CustWarranty">
+        select
+        <include refid="Base_Column_List"/>
+        from  cust_warranty
+        where `id`=#{id}
+    </select>
+
+    <select id="findUuid" parameterType="java.lang.String" resultType="CustWarranty">
+        select
+        <include refid="Base_Column_List"/>
+        from  cust_warranty
+        where `warranty_uuid`=#{warranty_uuid}
+    </select>
+</mapper>

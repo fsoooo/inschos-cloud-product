@@ -6,9 +6,9 @@
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/task
-		http://www.springframework.org/schema/task/spring-scheduling.xsd">
+		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-	<!--<task:executor id="insureExecutor" pool-size="10-80"-->
-		<!--queue-capacity="100" keep-alive="120" />-->
+	<task:annotation-driven executor="asyncExecutor" />
+	<task:executor id="asyncExecutor" pool-size="10-80" keep-alive="120" queue-capacity="0x7fffffff" />
 
 </beans>

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 /**
  * Created by IceAnt on 2018/3/27.
  */
-public class WarrantyCallBackBean {
+public class TradingCallBackBean {
 
     @JacksonXmlRootElement(localName = "ArrivalConfirmEchoRequest")
     public static class  PayCallBackRequest {

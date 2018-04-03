@@ -1,4 +1,4 @@
-package com.inschos.proposal.controller.bean;
+package com.inschos.proposal.remote.bean;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;

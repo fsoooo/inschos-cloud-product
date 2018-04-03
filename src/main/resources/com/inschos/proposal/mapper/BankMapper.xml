@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inschos.proposal.mapper.BankMapper">
+
+    <sql id="Base_Column_List">
+        `id`,`cust_type`,`cust_id`,`bank`,`bank_code`,`bank_city`,`bank_deal_type`,`phone`,`created_at`,`updated_at`
+    </sql>
+
+    <insert id="insert" parameterType="Bank">
+        insert into com_bank(`id`,`cust_type`,`cust_id`,`bank`,`bank_code`,`bank_city`,`bank_deal_type`,`phone`,`created_at`,`updated_at`)
+        select
+          #{cust_type},#{cust_id},#{bank},#{bank_code},#{bank_city},#{bank_deal_type},#{phone},#{created_at},#{updated_at}
+        from dual
+        where not exists(
+          select id from com_bank where `bank_code`=#{bank_code} limit 1
+        )
+
+    </insert>
+
+    <update id="update" parameterType="Bank">
+        update com_bank set
+          `cust_type`=#{cust_type},`cust_id`=#{cust_id},`bank`=#{bank},`bank_code`=#{bank_code},`bank_city`=#{bank_city},`bank_deal_type`=#{bank_deal_type},`phone`=#{phone},`created_at`=#{created_at},`updated_at`=#{updated_at}
+        where `id`=#{id}
+    </update>
+
+    <select id="findOne" parameterType="int" resultType="Bank">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        where `id`=#{id}
+    </select>
+
+</mapper>
