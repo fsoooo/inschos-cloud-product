@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by IceAnt on 2018/3/27.
  */
-@Controller("/warranty")
+@RequestMapping("/warranty")
+@Controller
 public class WarrantyController {
 
     @Autowired
