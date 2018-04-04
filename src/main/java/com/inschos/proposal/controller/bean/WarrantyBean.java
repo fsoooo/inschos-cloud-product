@@ -7,31 +7,31 @@ public class WarrantyBean {
 
     public static class InsureRequest extends BaseRequest{
 
-        /**	ÇşµÀµÄÎ¨Ò»±êÊ¶*/
+        /**	??????Î¨????*/
         public String channel_code;
-        /**	ÕæÊµĞÕÃû*/
+        /**	???????*/
         public String channel_user_name;
-        /**  	ÁªÏµ·½Ê½*/
+        /**  	??????*/
         public String channel_user_phone;
-        /**  	µç×ÓÓÊÏä*/
+        /**  	????????*/
         public String channel_user_email;
-        /**  	Éí·İ±êÊ¾*/
+        /**  	?????*/
         public String channel_user_code;
-        /** 	ÏêÏ¸µØÖ·*/
+        /** 	??????*/
         public String channel_user_address;
-        /**	ÒøĞĞÃû³Æ(Èç¹ã·¢ÒøĞĞ)*/
+        /**	????????(???????)*/
         public String channel_bank_name;
-        /**	¿ª»§ĞĞµØÖ·*/
+        /**	?????Ğµ??*/
         public String channel_bank_address;
-        /**	ÒøĞĞ¿¨ºÅ*/
+        /**	???Ğ¿???*/
         public String channel_bank_code;
-        /**	ÒøĞĞÔ¤Áôµç»°*/
+        /**	????????ç»°*/
         public String channel_bank_phone;
-        /**	Ê¡·İ*/
+        /**	???*/
         public String channel_provinces;
-        /**	³ÇÊĞ*/
+        /**	????*/
         public String channel_city;
-        /**	Çø(ÏØ¼¶)*/
+        /**	??(???)*/
         public String channel_county;
 
         public String price;

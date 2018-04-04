@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.inschos.proposal.mapper.CustWarrantyPolicyMapper">
+<mapper namespace="com.inschos.proposal.mapper.CustWarrantyPersonMapper">
 
     <sql id="Base_Column_List">
         `id`,`warranty_uuid`,`out_order_no`,`type`,`relation_name`,`name`,`card_type`,`card_code`,`phone`,`occupation`,`birthday`,`sex`,`email`,`nationality`,`annual_income`,`height`,`weight`,`area`,`address`,`start_time`,`end_time`
     </sql>
 
-    <insert id="insert" parameterType="CustWarrantyPolicy">
-        insert into com_cust_warranty_policy(
-          `id`,`warranty_uuid`,`out_order_no`,`type`,`relation_name`,`name`,`card_type`,`card_code`,`phone`,`occupation`,`birthday`,`sex`,`email`,`nationality`,`annual_income`,`height`,`weight`,`area`,`address`,`start_time`,`end_time`
+    <insert id="insert" parameterType="CustWarrantyPerson">
+        insert into com_cust_warranty_person(
+          `warranty_uuid`,`out_order_no`,`type`,`relation_name`,`name`,`card_type`,`card_code`,`phone`,`occupation`,`birthday`,`sex`,`email`,`nationality`,`annual_income`,`height`,`weight`,`area`,`address`,`start_time`,`end_time`
         )
-        values{
-          #{id},#{warranty_uuid},#{out_order_no},#{type},#{relation_name},#{name},#{card_type},#{card_code},#{phone},#{occupation},#{birthday},#{sex},#{email},#{nationality},#{annual_income},#{height},#{weight},#{area},#{address},#{start_time},#{end_time}
-        }
+        values(
+          #{warranty_uuid},#{out_order_no},#{type},#{relation_name},#{name},#{card_type},#{card_code},#{phone},#{occupation},#{birthday},#{sex},#{email},#{nationality},#{annual_income},#{height},#{weight},#{area},#{address},#{start_time},#{end_time}
+        )
     </insert>
 
-    <update id="update" parameterType="CustWarrantyPolicy">
-        update com_cust_warranty_policy set
+    <update id="update" parameterType="CustWarrantyPerson">
+        update com_cust_warranty_person set
           `warranty_uuid`=#{warranty_uuid},`out_order_no`=#{out_order_no},`type`=#{type},`relation_name`=#{relation_name},`name`=#{name},`card_type`=#{card_type},`card_code`=#{card_code},`phone`=#{phone},`occupation`=#{occupation},`birthday`=#{birthday},`sex`=#{sex},`email`=#{email},`nationality`=#{nationality},`annual_income`=#{annual_income},`height`=#{height},`weight`=#{weight},`area`=#{area},`address`=#{address},`start_time`=#{start_time},`end_time`=#{end_time}
         where `id`=#{id}
     </update>
 
-    <select id="findOne" parameterType="int" resultType="CustWarrantyPolicy">
+    <select id="findOne" parameterType="int" resultType="CustWarrantyPerson">
         select
         <include refid="Base_Column_List"/>
-        from  com_cust_warranty_policy
+        from  com_cust_warranty_person
         where `id`=#{id}
     </select>
 

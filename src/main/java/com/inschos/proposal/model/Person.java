@@ -5,10 +5,10 @@ package com.inschos.proposal.model;
  */
 public class Person {
 
-    public static int PAPERS_TYPE_ICCARD = 1;
+    public final static int PAPERS_TYPE_ICCARD = 1;
 
-    public static int PERSON_TYPE_USER = 1;
-    public static int PERSON_TYPE_AGENT = 1;
+    public final static int PERSON_TYPE_USER = 1;
+    public final static int PERSON_TYPE_AGENT = 2;
 
     /** */
     public long id;

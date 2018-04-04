@@ -3,15 +3,16 @@
 <mapper namespace="com.inschos.proposal.mapper.PersonMapper">
 
     <sql id="Base_Column_List">
-      `id`,`name`,`papers_type`,`papers_code`,`papers_start`,`papers_end`,`sex`,`birthday`,`address`,`address_detail`,`phone`,`email`,`postcode`,`cust_type`,`authentication`,`up_url`,`down_url`,`person_url`,`head`,`company_id`,`del`,`status`,`created_at`,`updated_at`
+      `id`,`name`,`papers_type`,`papers_code`,`papers_start`,`papers_end`,`sex`,`birthday`,`address`,`address_detail`,`phone`,`email`,`postcode`,`cust_type`,`authentication`,`up_url`,`down_url`,`person_url`,`head`,`del`,`status`,`created_at`,`updated_at`
     </sql>
 
     <insert id="insert" parameterType="Person" useGeneratedKeys="true" keyProperty="id">
         insert into com_person(
-          `id`,`name`,`papers_type`,`papers_code`,`papers_start`,`papers_end`,`sex`,`birthday`,`address`,`address_detail`,`phone`,`email`,`postcode`,`cust_type`,`authentication`,`up_url`,`down_url`,`person_url`,`head`,`company_id`,`del`,`status`,`created_at`,`updated_at`
+          `name`,`papers_type`,`papers_code`,`papers_start`,`papers_end`,`sex`,`birthday`,`address`,`address_detail`,`phone`,`email`,`postcode`,`cust_type`,`authentication`,`up_url`,`down_url`,`person_url`,`head`,`del`,`status`,`created_at`,`updated_at`
         )
         select
-          #{id},#{name},#{papers_type},#{papers_code},#{papers_start},#{papers_end},#{sex},#{birthday},#{address},#{address_detail},#{phone},#{email},#{postcode},#{cust_type},#{authentication},#{up_url},#{down_url},#{person_url},#{head},#{company_id},#{del},#{status},#{created_at},#{updated_at}
+          #{name,jdbcType=VARCHAR},#{papers_type,jdbcType=VARCHAR},#{papers_code,jdbcType=VARCHAR},#{papers_start,jdbcType=VARCHAR},#{papers_end,jdbcType=VARCHAR},#{sex},#{birthday,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{address_detail,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},
+          #{postcode,jdbcType=VARCHAR},#{cust_type},#{authentication},#{up_url,jdbcType=VARCHAR},#{down_url,jdbcType=VARCHAR},#{person_url,jdbcType=VARCHAR},#{head,jdbcType=VARCHAR},#{del},#{status},#{created_at},#{updated_at}
         from dual
         where not exists(
           select id from com_person where `papers_code`=#{papers_code} and `papers_type`=#{papers_type} limit 1
@@ -20,7 +21,7 @@
 
     <update id="update" parameterType="Person">
         update com_person set
-          `name`=#{name},`papers_type`=#{papers_type},`papers_code`=#{papers_code},`papers_start`=#{papers_start},`papers_end`=#{papers_end},`sex`=#{sex},`birthday`=#{birthday},`address`=#{address},`address_detail`=#{address_detail},`phone`=#{phone},`email`=#{email},`postcode`=#{postcode},`cust_type`=#{cust_type},`authentication`=#{authentication},`up_url`=#{up_url},`down_url`=#{down_url},`person_url`=#{person_url},`head`=#{head},`company_id`=#{company_id},`del`=#{del},`status`=#{status},`created_at`=#{created_at},`updated_at`=#{updated_at}
+          `name`=#{name},`papers_type`=#{papers_type},`papers_code`=#{papers_code},`papers_start`=#{papers_start},`papers_end`=#{papers_end},`sex`=#{sex},`birthday`=#{birthday},`address`=#{address},`address_detail`=#{address_detail},`phone`=#{phone},`email`=#{email},`postcode`=#{postcode},`cust_type`=#{cust_type},`authentication`=#{authentication},`up_url`=#{up_url},`down_url`=#{down_url},`person_url`=#{person_url},`head`=#{head},`del`=#{del},`status`=#{status},`created_at`=#{created_at},`updated_at`=#{updated_at}
         where `id`=#{id}
     </update>
 

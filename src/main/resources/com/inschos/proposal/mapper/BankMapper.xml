@@ -7,12 +7,12 @@
     </sql>
 
     <insert id="insert" parameterType="Bank">
-        insert into com_bank(`id`,`cust_type`,`cust_id`,`bank`,`bank_code`,`bank_city`,`bank_deal_type`,`phone`,`created_at`,`updated_at`)
+        insert into com_bank(`cust_type`,`cust_id`,`bank`,`bank_code`,`bank_city`,`bank_deal_type`,`phone`,`created_at`,`updated_at`)
         select
           #{cust_type},#{cust_id},#{bank},#{bank_code},#{bank_city},#{bank_deal_type},#{phone},#{created_at},#{updated_at}
         from dual
         where not exists(
-          select id from com_bank where `bank_code`=#{bank_code} limit 1
+          select id from com_bank where `bank_code`=#{bank_code} and `cust_id`=#{cust_id} and `cust_type`=#{cust_type} limit 1
         )
 
     </insert>
@@ -26,8 +26,16 @@
     <select id="findOne" parameterType="int" resultType="Bank">
         select
         <include refid="Base_Column_List"/>
-        from
+        from com_bank
         where `id`=#{id}
+    </select>
+
+
+    <select id="findByUserAndCode" parameterType="Bank" resultType="Bank">
+        select
+        <include refid="Base_Column_List"/>
+        from com_bank
+        where `bank_code`=#{bank_code} and `cust_id`=#{cust_id} and `cust_type`=#{cust_type} limit 1
     </select>
 
 </mapper>

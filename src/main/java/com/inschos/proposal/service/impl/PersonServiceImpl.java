@@ -3,7 +3,6 @@ package com.inschos.proposal.service.impl;
 import com.inschos.proposal.kit.TimeKit;
 import com.inschos.proposal.mapper.BankMapper;
 import com.inschos.proposal.mapper.PersonMapper;
-import com.inschos.proposal.model.Bank;
 import com.inschos.proposal.model.Person;
 import com.inschos.proposal.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ public class PersonServiceImpl implements PersonService {
 
         long currentTime = TimeKit.currentTimeMillis();
 
-        Bank bank = person.bank;
         person.created_at = currentTime;
         person.updated_at = currentTime;
         person.status = 1;

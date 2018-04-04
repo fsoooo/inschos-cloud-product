@@ -12,4 +12,6 @@ public interface BankMapper {
     int update(Bank update);
 
     Bank findOne(int id);
+
+    Bank findByUserAndCode(Bank search);
 }

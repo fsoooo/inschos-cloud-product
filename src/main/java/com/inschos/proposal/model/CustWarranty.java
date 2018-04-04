@@ -10,92 +10,111 @@ public class CustWarranty {
     public final static int USER_TYPE_PRO = 1;
     public final static int USER_TYPE_COM = 2;
 
-    /** Ö÷¼ü*/
+    public final static int CHECK_STATUS_SUCCESS = 3;
+
+    public final static int PAY_STATUS_ING = 1;
+
+    public final static int PAY_STATUS_SUCCESS = 2;
+
+    public final static int PAY_STATUS_FAILED = 3;
+
+    public final static int WARRANTY_STATUS_DAICHULI = 1;
+
+    public final static int WARRANTY_STATUS_DAIZHIFU = 2;
+
+    public final static int WARRANTY_STATUS_DAISHENGXIAO = 3;
+
+    public final static int WARRANTY_STATUS_YISHIXIAO = 6;
+
+    /** ï¿½ï¿½ï¿½ï¿½*/
     public long id;
 
-    /** Ô¤Í¶±£±àºÅ£¬ÓÉ±£ÏÕ¹«Ë¾·µ»Ø*/
-    public String union_order_code;
-
-    /** ±£µ¥ºÅ*/
-    public String warranty_code;
-
-    /** ÄÚ²¿±£µ¥Î¨Ò»±êÊ¶*/
+    /** ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½Î¨Ò»ï¿½ï¿½Ê¶*/
     public String warranty_uuid;
 
-    /** ¹«Ë¾ID*/
+    /**  Í¶ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½Ô¤Í¶ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½*/
+    public String pro_policy_no;
+
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
+    public String warranty_code;
+
+    /** ï¿½ï¿½Ë¾ID*/
     public long company_id;
 
-    /** ¿Í»§ID*/
+    /** ï¿½Í»ï¿½ID*/
     public long user_id;
 
-    /** ¿Í»§ÀàÐÍ 1¸öÈË 2ÆóÒµ*/
+    /** ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½Òµ*/
     public int user_type;
 
-    /** ´úÀíÈËID,Îª0ÔòÎªÓÃ»§×ÔÖ÷¹ºÂò*/
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ID,Îª0ï¿½ï¿½Îªï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
     public long agent_id;
 
-    /** ÇþµÀID,Îª0ÔòÎªÓÃ»§×ÔÖ÷¹ºÂò*/
+    /** ï¿½ï¿½ï¿½ï¿½ID,Îª0ï¿½ï¿½Îªï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
     public long ditch_id;
 
-    /** ¼Æ»®ÊéID,Îª0ÔòÎªÓÃ»§×ÔÖ÷¹ºÂò*/
+    /** ï¿½Æ»ï¿½ï¿½ï¿½ID,Îª0ï¿½ï¿½Îªï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
     public long plan_id;
 
-    /** ²úÆ·ID*/
+    /** ï¿½ï¿½Æ·ID*/
     public long product_id;
 
-    /** ±£µ¥¼Û¸ñ*/
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½Û¸ï¿½*/
     public float premium;
 
-    /** Æð±£Ê±¼ä*/
+    /** ï¿½ï¿½Ê±ï¿½ï¿½*/
     public long start_time;
 
-    /** ½áÊøÊ±¼ä*/
+    /** ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½*/
     public long end_time;
 
-    /** ±£ÏÕ¹«Ë¾ID*/
+    /** ï¿½ï¿½ï¿½Õ¹ï¿½Ë¾ID*/
     public long ins_company_id;
 
-    /** ¹ºÂò·ÝÊý*/
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
     public int count;
 
-    /** Ö§¸¶Ê±¼ä*/
+    /** Ö§ï¿½ï¿½Ê±ï¿½ï¿½*/
     public long pay_time;
 
-    /** Ö§¸¶·½Ê½  1 ÒøÁª 2 Ö§¸¶±¦ 3 Î¢ÐÅ*/
+    /** Ö§ï¿½ï¿½ï¿½ï¿½Ê½  1 ï¿½ï¿½ï¿½ï¿½ 2 Ö§ï¿½ï¿½ï¿½ï¿½ 3 Î¢ï¿½ï¿½*/
     public String pay_way;
 
-    /** ·ÖÆÚ·½Ê½ */
+    /** ï¿½ï¿½ï¿½Ú·ï¿½Ê½ */
     public String by_stages_way;
 
-    /** Ó¶½ð 0±íÊ¾Î´½áËã£¬1±íÊ¾ÒÑ½áËã*/
+    /** Ó¶ï¿½ï¿½ 0ï¿½ï¿½Ê¾Î´ï¿½ï¿½ï¿½ã£¬1ï¿½ï¿½Ê¾ï¿½Ñ½ï¿½ï¿½ï¿½*/
     public int is_settlement;
 
-    /** µç×Ó±£µ¥ÏÂÔØµØÖ·*/
+    /** ï¿½ï¿½ï¿½Ó±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½Ö·*/
     public String warranty_url;
 
-    /** ±£µ¥À´Ô´ 1 ×Ô¹º 2ÏßÉÏ³É½» 3ÏßÏÂ³É½» 4µ¼Èë*/
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ 1 ï¿½Ô¹ï¿½ 2ï¿½ï¿½ï¿½Ï³É½ï¿½ 3ï¿½ï¿½ï¿½Â³É½ï¿½ 4ï¿½ï¿½ï¿½ï¿½*/
     public int warranty_from;
 
-    /** ±£µ¥ÀàÐÍ,1±íÊ¾¸öÈË±£µ¥£¬2±íÊ¾ÍÅÏÕ±£µ¥£¬3±íÊ¾³µÏÕ±£µ¥*/
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,1ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ë±ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Õ±ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Õ±ï¿½ï¿½ï¿½*/
     public int type;
 
-    /** ºË±£×´Ì¬£¨0, 1´ýºË±££¬2ºË±£Ê§°Ü£¬*/
+    /** ï¿½Ë±ï¿½×´Ì¬ï¿½ï¿½0, 1ï¿½ï¿½ï¿½Ë±ï¿½ï¿½ï¿½2ï¿½Ë±ï¿½Ê§ï¿½Ü£ï¿½*/
     public int check_status;
 
-    /** Ö§¸¶×´Ì¬ 0Î´Ö§¸¶-ºË±£³É¹¦£¬1Ö§¸¶ÖÐ,2Ö§¸¶Ê§°Ü,3Ö§¸¶³É¹¦£¬*/
+    /** Ö§ï¿½ï¿½×´Ì¬ 0Î´Ö§ï¿½ï¿½-ï¿½Ë±ï¿½ï¿½É¹ï¿½ï¿½ï¿½1Ö§ï¿½ï¿½ï¿½ï¿½,2Ö§ï¿½ï¿½Ê§ï¿½ï¿½,3Ö§ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½*/
     public int pay_status;
 
-    /** ±£µ¥×´Ì¬ 0,1±£ÕÏÖÐ,2´ýÉúÐ§,3´ýÐø±££¬4ÒÑÊ§Ð§£¬5ÒÑÍË±££©*/
+    /** ï¿½ï¿½ï¿½ï¿½×´Ì¬ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, 2ï¿½ï¿½Ö§ï¿½ï¿½,3ï¿½ï¿½ï¿½ï¿½Ð§, ,4ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½6ï¿½ï¿½Ê§Ð§ï¿½ï¿½7ï¿½ï¿½ï¿½Ë±ï¿½ */
     public int warranty_status;
 
-    /** ´´½¨Ê±¼ä*/
+    /** ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½*/
     public long created_at;
 
-    /** ½áÊøÊ±¼ä*/
+    /** ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½*/
     public long updated_at;
 
-    /** É¾³ý±êÊ¶ 0É¾³ý 1¿ÉÓÃ*/
+    /** É¾ï¿½ï¿½ï¿½ï¿½Ê¶ 0É¾ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½*/
     public int state;
+
+
+    public String search_card_code;
 
 
 }

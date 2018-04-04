@@ -3,45 +3,77 @@
 <mapper namespace="com.inschos.proposal.mapper.CustWarrantyMapper">
 
     <sql id="Base_Column_List">
-        `id`,`union_order_code`,`warranty_code`,`warranty_uuid`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,
+        `id`,`pro_policy_no`,`warranty_code`,`warranty_uuid`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,
         `product_id`,`premium`,`start_time`,`end_time`,`ins_company_id`,`count`,`pay_time`,`pay_way`,`by_stages_way`,`is_settlement`,
         `warranty_url`,`warranty_from`,`type`,`check_status`,`pay_status`,`warranty_status`,`created_at`,`updated_at`,`state`
     </sql>
 
     <insert id="insert" parameterType="CustWarranty">
-        insert into cust_warranty(
-          `id`,`union_order_code`,`warranty_code`,`warranty_uuid`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,
+        insert into com_cust_warranty(
+          `pro_policy_no`,`warranty_code`,`warranty_uuid`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,
           `product_id`,`premium`,`start_time`,`end_time`,`ins_company_id`,`count`,`pay_time`,`pay_way`,`by_stages_way`,`is_settlement`,
           `warranty_url`,`warranty_from`,`type`,`check_status`,`pay_status`,`warranty_status`,`created_at`,`updated_at`,`state`
         )
-        values(
-          #{id},#{union_order_code},#{warranty_code},#{warranty_uuid},#{company_id},#{user_id},#{user_type},#{agent_id},#{ditch_id},#{plan_id},
+        select
+          #{pro_policy_no},#{warranty_code},#{warranty_uuid},#{company_id},#{user_id},#{user_type},#{agent_id},#{ditch_id},#{plan_id},
           #{product_id},#{premium},#{start_time},#{end_time},#{ins_company_id},#{count},#{pay_time},#{pay_way},#{by_stages_way},#{is_settlement},
           #{warranty_url},#{warranty_from},#{type},#{check_status},#{pay_status},#{warranty_status},#{created_at},#{updated_at},#{state}
+        from dual
+        where not exists(
+          select
+              w.id
+            from  com_cust_warranty w
+            left join com_cust_warranty_person p on w.warranty_uuid = p.warranty_uuid
+            where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and p.card_code=#{search_card_code}
+            limit 1
         )
     </insert>
 
     <update id="update" parameterType="CustWarranty">
-        update cust_warranty set
-          `union_order_code`=#{union_order_code},`warranty_code`=#{warranty_code},`warranty_uuid`=#{warranty_uuid},`company_id`=#{company_id},`user_id`=#{user_id},`user_type`=#{user_type},
+        update com_cust_warranty set
+          `pro_policy_no`=#{pro_policy_no},`warranty_code`=#{warranty_code},`warranty_uuid`=#{warranty_uuid},`company_id`=#{company_id},`user_id`=#{user_id},`user_type`=#{user_type},
           `agent_id`=#{agent_id},`ditch_id`=#{ditch_id},`plan_id`=#{plan_id},`product_id`=#{product_id},`premium`=#{premium},`start_time`=#{start_time},`end_time`=#{end_time},
           `ins_company_id`=#{ins_company_id},`count`=#{count},`pay_time`=#{pay_time},`pay_way`=#{pay_way},`by_stages_way`=#{by_stages_way},`is_settlement`=#{is_settlement},`warranty_url`=#{warranty_url},
           `warranty_from`=#{warranty_from},`type`=#{type},`check_status`=#{check_status},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},
           `created_at`=#{created_at},`updated_at`=#{updated_at},`state`=#{state}
         where `id`=#{id}
     </update>
+    
+    <update id="updateProInfo" parameterType="CustWarranty" >
+        update com_cust_warranty set
+          `pro_policy_no`=#{pro_policy_no},`check_status`=#{check_status},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},
+          `updated_at`=#{updated_at}
+        where `warranty_uuid`=#{warranty_uuid}
+    </update>
+    <update id="changeWarrantyStatus" parameterType="CustWarranty">
+        update com_cust_warranty set
+          `check_status`=#{check_status},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},
+          `updated_at`=#{updated_at}
+        where `warranty_uuid`=#{warranty_uuid}
+    </update>
 
     <select id="findOne" parameterType="int" resultType="CustWarranty">
         select
         <include refid="Base_Column_List"/>
-        from  cust_warranty
+        from  com_cust_warranty
         where `id`=#{id}
     </select>
 
     <select id="findUuid" parameterType="java.lang.String" resultType="CustWarranty">
         select
         <include refid="Base_Column_List"/>
-        from  cust_warranty
+        from  com_cust_warranty
         where `warranty_uuid`=#{warranty_uuid}
     </select>
+
+    <select id="findExists" parameterType="CustWarranty" resultType="CustWarranty">
+        select
+          w.id,w.warranty_uuid
+        from  com_cust_warranty w
+        left join com_cust_warranty_person p on w.warranty_uuid = p.warranty_uuid
+        where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and p.card_code=#{search_card_code}
+        limit 1
+
+    </select>
+
 </mapper>

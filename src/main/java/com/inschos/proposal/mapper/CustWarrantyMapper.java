@@ -15,4 +15,10 @@ public interface CustWarrantyMapper {
 
     CustWarranty findUuid(String uuid);
 
+    int changeWarrantyStatus(CustWarranty record);
+
+    int updateProInfo(CustWarranty record);
+
+    CustWarranty findExists(CustWarranty search);
+
 }
