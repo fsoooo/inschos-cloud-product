@@ -1,9 +1,11 @@
 package com.inschos.proposal.controller.action;
 
-import com.inschos.proposal.controller.bean.BaseRequest;
 import com.inschos.proposal.controller.bean.BaseResponse;
 import com.inschos.proposal.controller.bean.WarrantyBean;
-import com.inschos.proposal.kit.*;
+import com.inschos.proposal.kit.ICCardKit;
+import com.inschos.proposal.kit.JsonKit;
+import com.inschos.proposal.kit.StringKit;
+import com.inschos.proposal.kit.TimeKit;
 import com.inschos.proposal.logic.WarrantyUuidWorker;
 import com.inschos.proposal.model.Bank;
 import com.inschos.proposal.model.CustWarranty;
@@ -136,13 +138,17 @@ public class WarrantyAction extends BaseAction {
 
 
     private boolean verifySign(WarrantyBean.InsureRequest request) {
-        boolean isSuccess = false;
-        if (request != null) {
-            String secret = BaseRequest.getSecret(request.signKey);
-            String sign = Md5Util.getMD5String(secret + request.signKey + request.channel_user_code + request.channel_bank_code + request.signKey);
-            isSuccess = sign.equals(request.sign);
-        }
-        return isSuccess;
+        //不验证
+        return true;
+//        boolean isSuccess = false;
+//        if (request != null) {
+//            String secret = BaseRequest.getSecret(request.signKey);
+//            String sign = Md5Util.getMD5String(secret + request.signKey + request.channel_user_code + request.channel_bank_code + request.signKey);
+//            isSuccess = sign.equals(request.sign);
+//        }else {
+//            return true;
+//        }
+//        return isSuccess;
     }
 
 
