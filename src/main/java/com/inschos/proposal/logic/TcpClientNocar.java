@@ -164,8 +164,9 @@ public class TcpClientNocar {
 			out.close();
 			in.close();
 			if(logger.isDebugEnabled()){
-				logger.debug(" secret body :"+decodeXml);
+				logger.debug(" secret body :"+returnXml);
 				logger.debug(" body :"+decodeXml);
+				System.out.println(decodeXml);
 
 			}
 			return decodeXml;

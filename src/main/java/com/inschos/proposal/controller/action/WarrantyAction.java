@@ -43,17 +43,17 @@ public class WarrantyAction extends BaseAction {
 
         if (verifySign(request)) {
 
-            if (!StringKit.isEmpty(request.channel_user_name) && !StringKit.isEmpty(request.channel_user_code)) {
+            if (!StringKit.isEmpty(request.insured_name) && !StringKit.isEmpty(request.insured_code)) {
                 long currentTime = TimeKit.currentTimeMillis();
                 Person person = new Person();
-                person.name = request.channel_user_name;
-                person.phone = request.channel_user_phone;
+                person.name = request.insured_name;
+                person.phone = request.insured_phone;
 
-                person.email = request.channel_user_email;
-                person.papers_code = request.channel_user_code;
+                person.email = request.insured_email;
+                person.papers_code = request.insured_code;
                 person.papers_type = Person.PAPERS_TYPE_ICCARD;
                 person.cust_type = Person.PERSON_TYPE_USER;
-                person.address_detail = request.channel_user_address;
+                person.address_detail = request.insured_address;
                 person.status = 1;
                 person.sex = "F".equals(ICCardKit.getGenderByIdCard(person.papers_code)) ? 2 : 1;
                 person.birthday = ICCardKit.getBirthByIdCard(person.papers_code);
@@ -61,12 +61,12 @@ public class WarrantyAction extends BaseAction {
 
                 int result = personService.join(person);
 
-                if (!StringKit.isEmpty(request.channel_bank_code)) {
+                if (!StringKit.isEmpty(request.bank_code)) {
                     Bank bank = new Bank();
-                    bank.bank = StringKit.isEmpty(request.channel_bank_name) ? "" : request.channel_bank_name;
-                    bank.bank_city = StringKit.isEmpty(request.channel_bank_address) ? "" : request.channel_bank_address;
-                    bank.bank_code = request.channel_bank_code;
-                    bank.phone = StringKit.isEmpty(request.channel_bank_phone) ? "" : request.channel_bank_phone;
+                    bank.bank = StringKit.isEmpty(request.bank_name) ? "" : request.bank_name;
+                    bank.bank_city = StringKit.isEmpty(request.bank_address) ? "" : request.bank_address;
+                    bank.bank_code = request.bank_code;
+                    bank.phone = StringKit.isEmpty(request.bank_phone) ? "" : request.bank_phone;
                     bank.bank_deal_type = Bank.BANK_DEAL_TYPE_NOT_DELETE;
                     bank.cust_type = Person.PERSON_TYPE_USER;
                     bank.cust_id = person.id;
@@ -131,24 +131,22 @@ public class WarrantyAction extends BaseAction {
 
 
         } else {
-            insureRemote.test();
             return json(BaseResponse.CODE_FAILED, "sign投保提交失败");
         }
     }
 
 
     private boolean verifySign(WarrantyBean.InsureRequest request) {
-        //不验证
-        return true;
-//        boolean isSuccess = false;
-//        if (request != null) {
+
+        boolean isSuccess = false;
+        if (request != null) {
+            //不验证
+            return true;
 //            String secret = BaseRequest.getSecret(request.signKey);
-//            String sign = Md5Util.getMD5String(secret + request.signKey + request.channel_user_code + request.channel_bank_code + request.signKey);
+//            String sign = Md5Util.getMD5String(secret + request.signKey + request.insured_code + request.bank_code + request.signKey);
 //            isSuccess = sign.equals(request.sign);
-//        }else {
-//            return true;
-//        }
-//        return isSuccess;
+        }
+        return isSuccess;
     }
 
 
