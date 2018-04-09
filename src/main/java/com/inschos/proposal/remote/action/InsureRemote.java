@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -27,7 +28,7 @@ public class InsureRemote {
 
     private Logger logger = LoggerFactory.getLogger(InsureRemote.class);
 
-    private final String bodyHead = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    private final String bodyHead = "<?xml version=\"1.0\" encoding=\"%s\"?>";
 
     private final String host = "211.160.75.141";
 
@@ -50,9 +51,11 @@ public class InsureRemote {
     public void insure(CustWarranty warranty, CustWarrantyPerson warrantyPerson, Bank bank) {
 
         TcpClientNocar client = new TcpClientNocar();
-        client.setEncoding("GBK");
+        String charsetName = Charset.defaultCharset().displayName();
+        logger.debug("system charset displayName {}",charsetName);
+        client.setEncoding(charsetName);
         client.setHeadBeforeLength("");
-        client.setHeadAfterLength(StringUtils.rightPad(s, 7) + "gs0007");
+        client.setHeadAfterLength(StringUtils.rightPad(this.s, 7) + "gs0007");
         client.setLengthHeadSize(6);
         client.setLengthHeadPad(TcpClientNocar.PAD_RIGHT);
         client.setLengthHeadPadChar(" ");
@@ -158,7 +161,10 @@ public class InsureRemote {
         insuredDto.physicalExamination = "0";
         tyInsProposalRequest.mainDto.insuredDtoList.add(insuredDto);
 
-        return bodyHead + XmlKit.bean2Xml(tyInsProposalRequest);
+        String displayName = Charset.defaultCharset().displayName();
+        String head = String.format(bodyHead,displayName);
+        L.log.debug("head {}",head);
+        return head + XmlKit.bean2Xml(tyInsProposalRequest);
 
     }
 
