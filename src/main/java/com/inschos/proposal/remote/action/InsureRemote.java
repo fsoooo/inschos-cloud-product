@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -26,13 +27,21 @@ public class InsureRemote {
 
     private Logger logger = LoggerFactory.getLogger(InsureRemote.class);
 
-    private final String bodyHead = "<?xml version=\"1.0\" encoding=\"GBK\"?>";
+    private final String bodyHead = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
     private final String host = "211.160.75.141";
 
+    private final String host_pro = "211.160.75.143";
+
     private final int port = 6518;
 
+    private final int port_pro = 6518;
+
     private final String s = "1900020";
+
+    @Value("${remote_pro}")
+    private boolean remotePro;
+
 
     @Autowired
     private CustWarrantyService custWarrantyService;
@@ -49,7 +58,7 @@ public class InsureRemote {
         client.setLengthHeadPadChar(" ");
         boolean isRequestSuccess = false;
         try {
-            String call = client.call(host, port, getRequestXml(warranty, warrantyPerson, bank));
+            String call = client.call(getHost(), getPort(), getRequestXml(warranty, warrantyPerson, bank));
             if (!StringKit.isEmpty(call)) {
                 TYInsProposalBean.TYInsProposalResponse response = XmlKit.xml2Bean(call, TYInsProposalBean.TYInsProposalResponse.class);
                 if (response != null && response.headDto != null) {
@@ -253,5 +262,21 @@ public class InsureRemote {
 
         }
         return result;
+    }
+
+    private String getHost(){
+        if(remotePro){
+            return host_pro;
+        }else{
+            return host;
+        }
+    }
+
+    private int getPort(){
+        if(remotePro){
+            return port_pro;
+        }else{
+            return port;
+        }
     }
 }
