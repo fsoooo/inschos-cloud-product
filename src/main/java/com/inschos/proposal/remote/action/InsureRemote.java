@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +30,8 @@ public class InsureRemote {
     private Logger logger = LoggerFactory.getLogger(InsureRemote.class);
 
     private final String bodyHead = "<?xml version=\"1.0\" encoding=\"%s\"?>";
+
+    // 10.128.20.64
 
     private final String host = "211.160.75.141";
 
@@ -55,12 +58,15 @@ public class InsureRemote {
         logger.debug("system charset displayName {}",charsetName);
         client.setEncoding(charsetName);
         client.setHeadBeforeLength("");
+
         client.setHeadAfterLength(StringUtils.rightPad(this.s, 7) + "gs0007");
         client.setLengthHeadSize(6);
         client.setLengthHeadPad(TcpClientNocar.PAD_RIGHT);
         client.setLengthHeadPadChar(" ");
         boolean isRequestSuccess = false;
         try {
+
+
             String call = client.call(getHost(), getPort(), getRequestXml(warranty, warrantyPerson, bank));
             if (!StringKit.isEmpty(call)) {
                 TYInsProposalBean.TYInsProposalResponse response = XmlKit.xml2Bean(call, TYInsProposalBean.TYInsProposalResponse.class);
@@ -112,7 +118,7 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.provinceCode = "21";
         tyInsProposalRequest.mainDto.areaCode = "2101";
         tyInsProposalRequest.mainDto.addresscode = "510000";
-        tyInsProposalRequest.mainDto.houseAddress = person.address;
+        tyInsProposalRequest.mainDto.houseAddress = URLEncoder.encode(person.address);
 
         tyInsProposalRequest.mainDto.inputDate = TimeKit.format("yyyy-MM-dd", tradingTime);
         tyInsProposalRequest.mainDto.startDate = TimeKit.format("yyyy-MM-dd", warranty.start_time);
@@ -133,7 +139,7 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.channelDto.channelTradeDate = TimeKit.format("yyyyMMddHHmmss", tradingTime);
 
         tyInsProposalRequest.mainDto.insuredAppliDto.insuredAppliType = "1";
-        tyInsProposalRequest.mainDto.insuredAppliDto.insuredAppliName = person.name;
+        tyInsProposalRequest.mainDto.insuredAppliDto.insuredAppliName = URLEncoder.encode(person.name);
         tyInsProposalRequest.mainDto.insuredAppliDto.insuredIdentity = "01";
         tyInsProposalRequest.mainDto.insuredAppliDto.identifyType = tranCardType(person.card_type);
         tyInsProposalRequest.mainDto.insuredAppliDto.identifyNumber = person.card_code;
@@ -141,20 +147,21 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.insuredAppliDto.sex = String.valueOf(person.sex);
         tyInsProposalRequest.mainDto.insuredAppliDto.birth = person.birthday;
         tyInsProposalRequest.mainDto.insuredAppliDto.email = person.email;
-        tyInsProposalRequest.mainDto.insuredAppliDto.appliAddress = person.address;
+        tyInsProposalRequest.mainDto.insuredAppliDto.appliAddress = URLEncoder.encode(person.address);
+
         tyInsProposalRequest.mainDto.insuredAppliDto.age = String.valueOf(person.age);
 
 
         TYInsProposalBean.InsuredDto insuredDto = new TYInsProposalBean.InsuredDto();
         insuredDto.insuredType = "1";
-        insuredDto.insuredName = person.name;
+        insuredDto.insuredName = URLEncoder.encode(person.name);
         insuredDto.identifyType = tranCardType(person.card_type);
         insuredDto.identifyNumber = person.card_code;
         insuredDto.linkMobile = person.phone;
         insuredDto.sex = String.valueOf(person.sex);
         insuredDto.birth = person.birthday;
         insuredDto.email = person.email;
-        insuredDto.insuredAddress = person.address;
+        insuredDto.insuredAddress = URLEncoder.encode(person.address);
         insuredDto.age = String.valueOf(person.age);
         insuredDto.relationSerialType = "01";
         insuredDto.occupationCode = "";
@@ -215,25 +222,26 @@ public class InsureRemote {
 //        request.mainDto.userCode = "12010001";
 
 
-//        request.mainDto.makeCom = "12010010";
-//        request.mainDto.comCode = "12010010";
-//        request.mainDto.operatorCode = "12345098";
-//        request.mainDto.operatorName = "";
-//        request.mainDto.handlerCode = "12345098";
-//        request.mainDto.handler1Code = "12345098";
-//        request.mainDto.agentCode = "U12011800001";
-//        request.mainDto.agreementNo = "U12011800001-01";
-//        request.mainDto.userCode = "12010001";
-
-        request.mainDto.makeCom = "12260402";
-        request.mainDto.comCode = "12260402";
-        request.mainDto.operatorCode = "12030018";
+        request.mainDto.makeCom = "12010010";
+        request.mainDto.comCode = "12010010";
+        request.mainDto.operatorCode = "12345098";
         request.mainDto.operatorName = "";
-        request.mainDto.handlerCode = "12063706";
-        request.mainDto.handler1Code = "12063706";
-        request.mainDto.agentCode = "U12262000019";
-        request.mainDto.agreementNo = "U12262000019-01";
-        request.mainDto.userCode = "12030018";
+        request.mainDto.handlerCode = "12345098";
+        request.mainDto.handler1Code = "12345098";
+        request.mainDto.agentCode = "U12011800001";
+        request.mainDto.agreementNo = "U12011800001-01";
+        request.mainDto.userCode = "12010001";
+
+
+//        request.mainDto.makeCom = "12260402";
+//        request.mainDto.comCode = "12260402";
+//        request.mainDto.operatorCode = "12030018";
+//        request.mainDto.operatorName = "";
+//        request.mainDto.handlerCode = "12063706";
+//        request.mainDto.handler1Code = "12063706";
+//        request.mainDto.agentCode = "U12262000019";
+//        request.mainDto.agreementNo = "U12262000019-01";
+//        request.mainDto.userCode = "12030018";
 
 
         request.mainDto.shareholderFlag = "0";
@@ -244,7 +252,7 @@ public class InsureRemote {
         request.mainDto.owner = "";
         request.mainDto.cardNo = "";
         request.mainDto.phone = "";
-        request.mainDto.pName = "英大非机动车驾驶员意外险";
+        request.mainDto.pName = URLEncoder.encode("英大非机动车驾驶员意外险");
 
         request.mainDto.channelDto = new TYInsProposalBean.ChannelDto();
         request.mainDto.channelDto.channelCode = "190000";
