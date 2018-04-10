@@ -59,6 +59,10 @@ public class CustWarrantyServiceImpl extends BaseServiceImpl implements CustWarr
         return id<=0?null:custWarrantyMapper.findOne(id);
     }
 
+    @Override
+    public CustWarranty findExists(CustWarranty warranty) {
+        return warranty!=null?custWarrantyMapper.findExists(warranty):null;
+    }
 
 
     @Override

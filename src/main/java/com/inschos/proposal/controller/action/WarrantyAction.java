@@ -16,6 +16,7 @@ import com.inschos.proposal.service.BankService;
 import com.inschos.proposal.service.CustWarrantyService;
 import com.inschos.proposal.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -35,106 +36,134 @@ public class WarrantyAction extends BaseAction {
     @Autowired
     private BankService bankService;
 
+    @Value("${remote_pro}")
+    private boolean remotePro;
+
 
     public String insure(String body) {
 
         WarrantyBean.InsureRequest request = JsonKit.json2Bean(body, WarrantyBean.InsureRequest.class);
 
-
         if (verifySign(request)) {
-
-            if (!StringKit.isEmpty(request.insured_name) && !StringKit.isEmpty(request.insured_code)) {
-                long currentTime = TimeKit.currentTimeMillis();
-                Person person = new Person();
-                person.name = request.insured_name;
-                person.phone = request.insured_phone;
-
-                person.email = request.insured_email;
-                person.papers_code = request.insured_code;
-                person.papers_type = Person.PAPERS_TYPE_ICCARD;
-                person.cust_type = Person.PERSON_TYPE_USER;
-                person.address_detail = request.insured_address;
-                person.status = 1;
-                person.sex = "F".equals(ICCardKit.getGenderByIdCard(person.papers_code)) ? 2 : 1;
-                person.birthday = ICCardKit.getBirthByIdCard(person.papers_code);
-                person.created_at = person.updated_at = currentTime;
-
-                int result = personService.join(person);
-
-                if (!StringKit.isEmpty(request.bank_code)) {
-                    Bank bank = new Bank();
-                    bank.bank = StringKit.isEmpty(request.bank_name) ? "" : request.bank_name;
-                    bank.bank_city = StringKit.isEmpty(request.bank_address) ? "" : request.bank_address;
-                    bank.bank_code = request.bank_code;
-                    bank.phone = StringKit.isEmpty(request.bank_phone) ? "" : request.bank_phone;
-                    bank.bank_deal_type = Bank.BANK_DEAL_TYPE_NOT_DELETE;
-                    bank.cust_type = Person.PERSON_TYPE_USER;
-                    bank.cust_id = person.id;
-                    bank.created_at = currentTime;
-                    bank.updated_at = currentTime;
-                    if (result > 0) {
-                        bankService.join(bank);
-                    }
-
-                    if (request.insured_days > 0) {
-
-
-                        CustWarranty warranty = new CustWarranty();
-                        warranty.warranty_uuid = String.valueOf(WarrantyUuidWorker.getWorker(1, 1).nextId());
-                        warranty.company_id = CustWarranty.DEFAULT_INS_YADA_ID;
-                        warranty.agent_id = 0;
-                        warranty.ditch_id = 0;
-                        warranty.plan_id = 0;
-                        warranty.ins_company_id = CustWarranty.DEFAULT_INS_YADA_ID;
-                        warranty.user_id = CustWarranty.DEFAULT_INS_YADA_ID;
-                        warranty.user_type = CustWarranty.USER_TYPE_PRO;
-                        warranty.product_id = CustWarranty.DEFAULT_INS_YADA_ID;
-                        warranty.premium = StringKit.isNumeric(request.price) ? Float.valueOf(request.price) : 0;
-                        warranty.start_time = currentTime;
-                        long endTime = TimeKit.add(TimeKit.getDayStartTime(currentTime), Calendar.DATE, request.insured_days) - 1;
-                        warranty.end_time = endTime;
-                        warranty.count = 1;
-                        warranty.by_stages_way = "0年";
-                        warranty.is_settlement = 0;
-                        warranty.warranty_from = 1;
-                        warranty.type = 1;
-                        warranty.check_status = CustWarranty.CHECK_STATUS_SUCCESS;
-                        warranty.pay_status = CustWarranty.PAY_STATUS_ING;
-                        warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
-                        warranty.created_at = currentTime;
-                        warranty.updated_at = currentTime;
-                        warranty.state = 1;
-
-                        CustWarrantyPerson warrantyPerson = new CustWarrantyPerson();
-                        warrantyPerson.name = person.name;
-                        warrantyPerson.phone = person.phone;
-                        warrantyPerson.email = person.email;
-                        warrantyPerson.card_type = person.papers_type;
-                        warrantyPerson.card_code = person.papers_code;
-                        warrantyPerson.address = person.address_detail;
-                        warrantyPerson.relation_name = "本人";
-                        warrantyPerson.age = ICCardKit.getAgeByIdCard(person.papers_code);
-                        warrantyPerson.birthday = person.birthday;
-                        warrantyPerson.sex = person.sex;
-
-                        int insert = custWarrantyService.insure(warranty, warrantyPerson);
-
-                        if (insert > 0) {
-                            insureRemote.insure(warranty, warrantyPerson, bank);
-                        }
-                    }
-                }
-                return json(BaseResponse.CODE_SUCCESS, "投保提交成功");
-            } else {
-                return json(BaseResponse.CODE_FAILED, "投保提交失败");
-            }
-
-
+            return _toInsure(request);
         } else {
-            return json(BaseResponse.CODE_FAILED, "sign投保提交失败");
+            return json(BaseResponse.CODE_FAILED, "投保提交失败");
         }
     }
 
+
+    public String insureTest(String body){
+        if(!remotePro){
+            WarrantyBean.InsureRequest request = JsonKit.json2Bean(body, WarrantyBean.InsureRequest.class);
+            if (verifySign(request)) {
+                CustWarranty warranty = new CustWarranty();
+                long currentTime = TimeKit.currentTimeMillis();
+                warranty.start_time = currentTime;
+                long endTime = TimeKit.add(TimeKit.getDayStartTime(currentTime), Calendar.DATE, request.insured_days) - 1;
+                warranty.end_time = endTime;
+                warranty.search_card_code = request.insured_code;
+                CustWarranty custWarranty = custWarrantyService.findExists(warranty);
+                if(custWarranty!=null){
+                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
+                    custWarranty.updated_at = currentTime;
+                    custWarrantyService.changeWarrantyStatus(custWarranty);
+                }
+
+                return _toInsure(request);
+            }
+        }
+        return null;
+    }
+
+
+    private String _toInsure(WarrantyBean.InsureRequest request){
+
+        if (!StringKit.isEmpty(request.insured_name) && !StringKit.isEmpty(request.insured_code)) {
+            long currentTime = TimeKit.currentTimeMillis();
+            Person person = new Person();
+            person.name = request.insured_name;
+            person.phone = request.insured_phone;
+
+            person.email = request.insured_email;
+            person.papers_code = request.insured_code;
+            person.papers_type = Person.PAPERS_TYPE_ICCARD;
+            person.cust_type = Person.PERSON_TYPE_USER;
+            person.address_detail = request.insured_address;
+            person.status = 1;
+            person.sex = "F".equals(ICCardKit.getGenderByIdCard(person.papers_code)) ? 2 : 1;
+            person.birthday = ICCardKit.getBirthByIdCard(person.papers_code);
+            person.created_at = person.updated_at = currentTime;
+
+            int result = personService.join(person);
+
+            if (!StringKit.isEmpty(request.bank_code)) {
+                Bank bank = new Bank();
+                bank.bank = StringKit.isEmpty(request.bank_name) ? "" : request.bank_name;
+                bank.bank_city = StringKit.isEmpty(request.bank_address) ? "" : request.bank_address;
+                bank.bank_code = request.bank_code;
+                bank.phone = StringKit.isEmpty(request.bank_phone) ? "" : request.bank_phone;
+                bank.bank_deal_type = Bank.BANK_DEAL_TYPE_NOT_DELETE;
+                bank.cust_type = Person.PERSON_TYPE_USER;
+                bank.cust_id = person.id;
+                bank.created_at = currentTime;
+                bank.updated_at = currentTime;
+                if (result > 0) {
+                    bankService.join(bank);
+                }
+
+                if (request.insured_days > 0) {
+
+
+                    CustWarranty warranty = new CustWarranty();
+                    warranty.warranty_uuid = String.valueOf(WarrantyUuidWorker.getWorker(1, 1).nextId());
+                    warranty.company_id = CustWarranty.DEFAULT_INS_YADA_ID;
+                    warranty.agent_id = 0;
+                    warranty.ditch_id = 0;
+                    warranty.plan_id = 0;
+                    warranty.ins_company_id = CustWarranty.DEFAULT_INS_YADA_ID;
+                    warranty.user_id = CustWarranty.DEFAULT_INS_YADA_ID;
+                    warranty.user_type = CustWarranty.USER_TYPE_PRO;
+                    warranty.product_id = CustWarranty.DEFAULT_INS_YADA_ID;
+                    warranty.premium = StringKit.isNumeric(request.price) ? Float.valueOf(request.price) : 0;
+                    warranty.start_time = currentTime;
+                    long endTime = TimeKit.add(TimeKit.getDayStartTime(currentTime), Calendar.DATE, request.insured_days) - 1;
+                    warranty.end_time = endTime;
+                    warranty.count = 1;
+                    warranty.by_stages_way = "0年";
+                    warranty.is_settlement = 0;
+                    warranty.warranty_from = 1;
+                    warranty.type = 1;
+                    warranty.check_status = CustWarranty.CHECK_STATUS_SUCCESS;
+                    warranty.pay_status = CustWarranty.PAY_STATUS_ING;
+                    warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
+                    warranty.created_at = currentTime;
+                    warranty.updated_at = currentTime;
+                    warranty.state = 1;
+
+                    CustWarrantyPerson warrantyPerson = new CustWarrantyPerson();
+                    warrantyPerson.name = person.name;
+                    warrantyPerson.phone = person.phone;
+                    warrantyPerson.email = person.email;
+                    warrantyPerson.card_type = person.papers_type;
+                    warrantyPerson.card_code = person.papers_code;
+                    warrantyPerson.address = person.address_detail;
+                    warrantyPerson.relation_name = "本人";
+                    warrantyPerson.age = ICCardKit.getAgeByIdCard(person.papers_code);
+                    warrantyPerson.birthday = person.birthday;
+                    warrantyPerson.sex = person.sex;
+
+                    int insert = custWarrantyService.insure(warranty, warrantyPerson);
+
+                    if (insert > 0) {
+                        insureRemote.insure(warranty, warrantyPerson, bank);
+                    }
+                }
+            }
+            return json(BaseResponse.CODE_SUCCESS, "投保提交成功");
+        } else {
+            return json(BaseResponse.CODE_FAILED, "投保提交失败");
+        }
+    }
 
     private boolean verifySign(WarrantyBean.InsureRequest request) {
 

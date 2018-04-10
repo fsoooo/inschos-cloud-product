@@ -24,7 +24,7 @@
               w.id
             from  com_cust_warranty w
             left join com_cust_warranty_person p on w.warranty_uuid = p.warranty_uuid
-            where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and p.card_code=#{search_card_code}
+            where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and `warranty_status`!=6 and p.card_code=#{search_card_code}
             limit 1
         )
     </insert>
@@ -71,7 +71,7 @@
           w.id,w.warranty_uuid
         from  com_cust_warranty w
         left join com_cust_warranty_person p on w.warranty_uuid = p.warranty_uuid
-        where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and p.card_code=#{search_card_code}
+        where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and `warranty_status`!=6 and p.card_code=#{search_card_code}
         limit 1
 
     </select>
