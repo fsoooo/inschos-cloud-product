@@ -211,28 +211,29 @@ public class InsureRemote {
         request.mainDto.endDate = "";
         request.mainDto.endHour = "";
         request.mainDto.updaterCode = "";
-//        request.mainDto.makeCom = "12010000";
-//        request.mainDto.comCode = "12010000";
-//        request.mainDto.operatorCode = "12019998";
+
+        request.mainDto.makeCom = "12010000";
+        request.mainDto.comCode = "12010000";
+        request.mainDto.operatorCode = "12019998";
+        request.mainDto.operatorName = "";
+        request.mainDto.handlerCode = "12019998";
+        request.mainDto.handler1Code = "12019998";
+        request.mainDto.agentCode = "U12242000001";
+        request.mainDto.agreementNo = "U12242000001-02";
+        request.mainDto.userCode = "12010001";
+
+
+//        request.mainDto.makeCom = "12010010";
+//        request.mainDto.comCode = "12010010";
+//        request.mainDto.operatorCode = "12345098";
 //        request.mainDto.operatorName = "";
-//        request.mainDto.handlerCode = "12019998";
-//        request.mainDto.handler1Code = "12019998";
+//        request.mainDto.handlerCode = "12345098";
+//        request.mainDto.handler1Code = "12345098";
 //        request.mainDto.agentCode = "U12011800001";
 //        request.mainDto.agreementNo = "U12011800001-01";
 //        request.mainDto.userCode = "12010001";
 
-
-        request.mainDto.makeCom = "12010010";
-        request.mainDto.comCode = "12010010";
-        request.mainDto.operatorCode = "12345098";
-        request.mainDto.operatorName = "";
-        request.mainDto.handlerCode = "12345098";
-        request.mainDto.handler1Code = "12345098";
-        request.mainDto.agentCode = "U12011800001";
-        request.mainDto.agreementNo = "U12011800001-01";
-        request.mainDto.userCode = "12010001";
-
-
+        //线上
 //        request.mainDto.makeCom = "12260402";
 //        request.mainDto.comCode = "12260402";
 //        request.mainDto.operatorCode = "12030018";
