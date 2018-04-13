@@ -128,9 +128,11 @@ public class InsureRemote {
 
 
         tyInsProposalRequest.mainDto.idCard = EncryptUtil.encode(person.card_code, EncryptUtil.getDKey());
-        tyInsProposalRequest.mainDto.owner = EncryptUtil.encode(person.name, EncryptUtil.getDKey());
+        //todo  url de
+        tyInsProposalRequest.mainDto.owner = EncryptUtil.encode(URLEncoder.encode(person.name), EncryptUtil.getDKey());
         tyInsProposalRequest.mainDto.cardNo = EncryptUtil.encode(bank.bank_code, EncryptUtil.getDKey());
         tyInsProposalRequest.mainDto.phone = EncryptUtil.encode(bank.phone, EncryptUtil.getDKey());
+
 
 
         tyInsProposalRequest.mainDto.channelDto.channelCode = "190000";
