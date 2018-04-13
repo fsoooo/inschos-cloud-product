@@ -213,15 +213,15 @@ public class InsureRemote {
         request.mainDto.updaterCode = "";
 
 
-        request.mainDto.makeCom = "12010000";
-        request.mainDto.comCode = "12010000";
-        request.mainDto.operatorCode = "12069004";
-        request.mainDto.operatorName = "";
-        request.mainDto.handlerCode = "12069004";
-        request.mainDto.handler1Code = "12069004";
-        request.mainDto.agentCode = "U12002000001";
-        request.mainDto.agreementNo = "U12002000001-01";
-        request.mainDto.userCode = "12010001";
+//        request.mainDto.makeCom = "12010000";
+//        request.mainDto.comCode = "12010000";
+//        request.mainDto.operatorCode = "12069004";
+//        request.mainDto.operatorName = "";
+//        request.mainDto.handlerCode = "12069004";
+//        request.mainDto.handler1Code = "12069004";
+//        request.mainDto.agentCode = "U12002000001";
+//        request.mainDto.agreementNo = "U12002000001-01";
+//        request.mainDto.userCode = "12010001";
 
 //        request.mainDto.makeCom = "12010000";
 //        request.mainDto.comCode = "12010000";
@@ -245,15 +245,15 @@ public class InsureRemote {
 //        request.mainDto.userCode = "12010001";
 
         //线上
-//        request.mainDto.makeCom = "12260402";
-//        request.mainDto.comCode = "12260402";
-//        request.mainDto.operatorCode = "12030018";
-//        request.mainDto.operatorName = "";
-//        request.mainDto.handlerCode = "12063706";
-//        request.mainDto.handler1Code = "12063706";
-//        request.mainDto.agentCode = "U12262000019";
-//        request.mainDto.agreementNo = "U12262000019-01";
-//        request.mainDto.userCode = "12030018";
+        request.mainDto.makeCom = "12260402";
+        request.mainDto.comCode = "12260402";
+        request.mainDto.operatorCode = "12030018";
+        request.mainDto.operatorName = "";
+        request.mainDto.handlerCode = "12063706";
+        request.mainDto.handler1Code = "12063706";
+        request.mainDto.agentCode = "U12262000019";
+        request.mainDto.agreementNo = "U12262000019-01";
+        request.mainDto.userCode = "12030018";
 
 
         request.mainDto.shareholderFlag = "0";
