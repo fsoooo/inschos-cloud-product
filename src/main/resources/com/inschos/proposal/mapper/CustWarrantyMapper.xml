@@ -66,6 +66,14 @@
         where `warranty_uuid`=#{warranty_uuid}
     </select>
 
+    <select id="findByProPolicyNo" parameterType="java.lang.String" resultType="CustWarranty">
+        select
+        <include refid="Base_Column_List"/>
+        from  com_cust_warranty
+        where `pro_policy_no`=#{pro_policy_no}
+    </select>
+
+
     <select id="findExists" parameterType="CustWarranty" resultType="CustWarranty">
         select
           w.id,w.warranty_uuid,w.check_status,w.pay_status,w.warranty_status,w.updated_at
@@ -73,7 +81,6 @@
         left join com_cust_warranty_person p on w.warranty_uuid = p.warranty_uuid
         where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and `warranty_status`!=6 and p.card_code=#{search_card_code}
         limit 1
-
     </select>
 
 </mapper>

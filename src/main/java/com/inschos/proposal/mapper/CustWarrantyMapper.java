@@ -21,4 +21,6 @@ public interface CustWarrantyMapper {
 
     CustWarranty findExists(CustWarranty search);
 
+    CustWarranty findByProPolicyNo(String proPolicyNo);
+
 }

@@ -71,6 +71,11 @@ public class CustWarrantyServiceImpl extends BaseServiceImpl implements CustWarr
     }
 
     @Override
+    public CustWarranty findByProPolicyNo(String proPolicyNo) {
+        return StringKit.isEmpty(proPolicyNo)?null:custWarrantyMapper.findByProPolicyNo(proPolicyNo);
+    }
+
+    @Override
     public int changeWarrantyStatus(CustWarranty record) {
         return record!=null?custWarrantyMapper.changeWarrantyStatus(record):0;
     }

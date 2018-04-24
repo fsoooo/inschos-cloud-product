@@ -16,6 +16,8 @@ public interface CustWarrantyService {
 
     CustWarranty findUuid(String uuid);
 
+    CustWarranty findByProPolicyNo(String proPolicyNo);
+
     int changeWarrantyStatus(CustWarranty record);
 
     int updateProInfo(CustWarranty record);

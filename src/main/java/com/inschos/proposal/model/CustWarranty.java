@@ -26,6 +26,8 @@ public class CustWarranty {
 
     public final static int WARRANTY_STATUS_DAISHENGXIAO = 3;
 
+    public final static int WARRANTY_STATUS_BAOZHANGZHONG = 4;
+
     public final static int WARRANTY_STATUS_YISHIXIAO = 6;
 
     /** ����*/
