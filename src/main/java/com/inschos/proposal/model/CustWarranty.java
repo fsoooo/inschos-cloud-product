@@ -12,6 +12,8 @@ public class CustWarranty {
 
     public final static int CHECK_STATUS_SUCCESS = 3;
 
+    public final static int CHECK_STATUS_FAILED = 2;
+
     public final static int PAY_STATUS_ING = 1;
 
     public final static int PAY_STATUS_SUCCESS = 2;

@@ -81,9 +81,9 @@ public class InsureRemote {
                                 isRequestSuccess = true;
                                 if (!StringKit.isEmpty(response.mainDto.cardPolicyNo)) {
                                     warranty.pro_policy_no = response.mainDto.cardPolicyNo;
-                                    // TODO: 2018/4/4
-                                    warranty.pay_status = CustWarranty.PAY_STATUS_SUCCESS;
-                                    warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAISHENGXIAO;
+                                    warranty.check_status = CustWarranty.CHECK_STATUS_SUCCESS;
+                                    warranty.pay_status = CustWarranty.PAY_STATUS_ING;
+                                    warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
                                     warranty.updated_at = TimeKit.currentTimeMillis();
                                     custWarrantyService.updateProInfo(warranty);
                                 }
@@ -103,7 +103,8 @@ public class InsureRemote {
             logger.error("insure call error", e);
         }
         if (!isRequestSuccess) {
-            warranty.pay_status = CustWarranty.PAY_STATUS_FAILED;
+            warranty.check_status = CustWarranty.CHECK_STATUS_FAILED;
+            warranty.warranty_status =CustWarranty.WARRANTY_STATUS_YISHIXIAO;
             warranty.updated_at = TimeKit.currentTimeMillis();
             custWarrantyService.updateProInfo(warranty);
         }

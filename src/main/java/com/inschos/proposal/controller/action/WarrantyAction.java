@@ -133,9 +133,9 @@ public class WarrantyAction extends BaseAction {
                     warranty.is_settlement = 0;
                     warranty.warranty_from = 1;
                     warranty.type = 1;
-                    warranty.check_status = CustWarranty.CHECK_STATUS_SUCCESS;
-                    warranty.pay_status = CustWarranty.PAY_STATUS_ING;
-                    warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
+                    warranty.check_status = 1;
+                    warranty.pay_status = 0;
+                    warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAICHULI;
                     warranty.created_at = currentTime;
                     warranty.updated_at = currentTime;
                     warranty.state = 1;
