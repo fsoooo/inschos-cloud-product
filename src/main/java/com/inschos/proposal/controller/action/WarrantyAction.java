@@ -125,7 +125,7 @@ public class WarrantyAction extends BaseAction {
                     warranty.user_type = CustWarranty.USER_TYPE_PRO;
                     warranty.product_id = CustWarranty.DEFAULT_INS_YADA_ID;
                     warranty.premium = StringKit.isNumeric(request.price) ? Float.valueOf(request.price) : 0;
-                    warranty.start_time = currentTime;
+                    warranty.start_time = TimeKit.getDayStartTime(currentTime);
                     long endTime = TimeKit.add(TimeKit.getDayStartTime(currentTime), Calendar.DATE, request.insured_days) - 1;
                     warranty.end_time = endTime;
                     warranty.count = 1;
