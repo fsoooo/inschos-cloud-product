@@ -31,6 +31,8 @@ public class TradingAction extends BaseAction {
             if(custWarranty!=null){
                 if(!StringKit.isEmpty(custWarranty.warranty_code)){
                     custWarranty.warranty_code += ","+request.mainDto.policyNo;
+                }else{
+                    custWarranty.warranty_code = request.mainDto.policyNo;
                 }
                 if("4".equals(request.mainDto.status)){
                     custWarranty.pay_status = CustWarranty.PAY_STATUS_ING;
