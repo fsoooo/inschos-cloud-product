@@ -2,10 +2,7 @@ package com.inschos.proposal.controller.action;
 
 import com.inschos.proposal.controller.bean.BaseResponse;
 import com.inschos.proposal.controller.bean.TradingCallBackBean;
-import com.inschos.proposal.kit.JsonKit;
-import com.inschos.proposal.kit.L;
-import com.inschos.proposal.kit.Md5Util;
-import com.inschos.proposal.kit.XmlKit;
+import com.inschos.proposal.kit.*;
 import com.inschos.proposal.model.CustWarranty;
 import com.inschos.proposal.service.CustWarrantyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +29,9 @@ public class TradingAction extends BaseAction {
 
             CustWarranty custWarranty = custWarrantyService.findByProPolicyNo(request.mainDto.proposalNo);
             if(custWarranty!=null){
-                custWarranty.warranty_code =request.mainDto.policyNo;
+                if(!StringKit.isEmpty(custWarranty.warranty_code)){
+                    custWarranty.warranty_code += ","+request.mainDto.policyNo;
+                }
                 if("4".equals(request.mainDto.status)){
                     custWarranty.pay_status = CustWarranty.PAY_STATUS_ING;
                     custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_BAOZHANGZHONG;

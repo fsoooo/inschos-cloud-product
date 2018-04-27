@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IceAnt on 2018/4/3.
@@ -78,8 +79,17 @@ public class InsureRemote {
 
                             if ("1".equals(response.mainDto.result) || "2".equals(response.mainDto.result) || "4".equals(response.mainDto.result)) {
                                 isRequestSuccess = true;
-                                if (!StringKit.isEmpty(response.mainDto.cardPolicyNo)) {
-                                    warranty.pro_policy_no = response.mainDto.cardPolicyNo;
+                                List<TYInsProposalBean.ProToPoDto> poDtoList = response.mainDto.proToPoDtoList;
+                                List<String> proPolicyNos = new ArrayList<>();
+
+                                if(poDtoList!=null){
+                                    for (TYInsProposalBean.ProToPoDto proToPoDto : poDtoList) {
+                                        proPolicyNos.add(proToPoDto.proposalNo);
+                                    }
+                                }
+                                if (!proPolicyNos.isEmpty()) {
+
+                                    warranty.pro_policy_no = StringKit.join(proPolicyNos,",");
                                     warranty.check_status = CustWarranty.CHECK_STATUS_SUCCESS;
                                     warranty.pay_status = CustWarranty.PAY_STATUS_ING;
                                     warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;

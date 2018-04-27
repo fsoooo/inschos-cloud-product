@@ -70,7 +70,7 @@
         select
         <include refid="Base_Column_List"/>
         from  com_cust_warranty
-        where `pro_policy_no`=#{pro_policy_no}
+        where find_in_set(#{pro_policy_no},`pro_policy_no`)
     </select>
 
 
