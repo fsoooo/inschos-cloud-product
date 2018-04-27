@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Created by IceAnt on 2018/4/3.
@@ -123,9 +122,11 @@ public class InsureRemote {
 
         tyInsProposalRequest.mainDto.inputDate = TimeKit.format("yyyy-MM-dd", tradingTime);
         tyInsProposalRequest.mainDto.startDate = TimeKit.format("yyyy-MM-dd", warranty.start_time);
-        tyInsProposalRequest.mainDto.startHour = String.valueOf(TimeKit.get(Calendar.HOUR, warranty.start_time));
+//        tyInsProposalRequest.mainDto.startHour = String.valueOf(TimeKit.get(Calendar.HOUR, warranty.start_time));
+        tyInsProposalRequest.mainDto.startHour = "0";
         tyInsProposalRequest.mainDto.endDate = TimeKit.format("yyyy-MM-dd", warranty.end_time - 1);
-        tyInsProposalRequest.mainDto.endHour = String.valueOf(TimeKit.get(Calendar.HOUR, warranty.end_time - 1) + 1);
+//        tyInsProposalRequest.mainDto.endHour = String.valueOf(TimeKit.get(Calendar.HOUR, warranty.end_time - 1) + 1);
+        tyInsProposalRequest.mainDto.endHour = "24";
 
 
         tyInsProposalRequest.mainDto.idCard = EncryptUtil.encode(person.card_code, EncryptUtil.getDKey());
@@ -153,6 +154,8 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.insuredAppliDto.appliAddress = URLEncoder.encode(person.address);
 
         tyInsProposalRequest.mainDto.insuredAppliDto.age = String.valueOf(person.age);
+
+
 
 
         TYInsProposalBean.InsuredDto insuredDto = new TYInsProposalBean.InsuredDto();
