@@ -128,7 +128,7 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.provinceCode = "21";
         tyInsProposalRequest.mainDto.areaCode = "2101";
         tyInsProposalRequest.mainDto.addresscode = "510000";
-        tyInsProposalRequest.mainDto.houseAddress = URLEncoder.encode(person.address);
+        tyInsProposalRequest.mainDto.houseAddress = _toUrlEncode(person.address);
 
         tyInsProposalRequest.mainDto.inputDate = TimeKit.format("yyyy-MM-dd", tradingTime);
         tyInsProposalRequest.mainDto.startDate = TimeKit.format("yyyy-MM-dd", warranty.start_time);
@@ -141,7 +141,7 @@ public class InsureRemote {
 
         tyInsProposalRequest.mainDto.idCard = EncryptUtil.encode(person.card_code, EncryptUtil.getDKey());
         //todo  url de
-        tyInsProposalRequest.mainDto.owner = EncryptUtil.encode(URLEncoder.encode(person.name), EncryptUtil.getDKey());
+        tyInsProposalRequest.mainDto.owner = EncryptUtil.encode(_toUrlEncode(person.name), EncryptUtil.getDKey());
         tyInsProposalRequest.mainDto.cardNo = EncryptUtil.encode(bank.bank_code, EncryptUtil.getDKey());
         tyInsProposalRequest.mainDto.phone = EncryptUtil.encode(bank.phone, EncryptUtil.getDKey());
 
@@ -153,7 +153,7 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.channelDto.channelTradeDate = TimeKit.format("yyyyMMddHHmmss", tradingTime);
 
         tyInsProposalRequest.mainDto.insuredAppliDto.insuredAppliType = "1";
-        tyInsProposalRequest.mainDto.insuredAppliDto.insuredAppliName = URLEncoder.encode(person.name);
+        tyInsProposalRequest.mainDto.insuredAppliDto.insuredAppliName = _toUrlEncode(person.name);
         tyInsProposalRequest.mainDto.insuredAppliDto.insuredIdentity = "01";
         tyInsProposalRequest.mainDto.insuredAppliDto.identifyType = tranCardType(person.card_type);
         tyInsProposalRequest.mainDto.insuredAppliDto.identifyNumber = person.card_code;
@@ -161,7 +161,7 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.insuredAppliDto.sex = String.valueOf(person.sex);
         tyInsProposalRequest.mainDto.insuredAppliDto.birth = person.birthday;
         tyInsProposalRequest.mainDto.insuredAppliDto.email = person.email;
-        tyInsProposalRequest.mainDto.insuredAppliDto.appliAddress = URLEncoder.encode(person.address);
+        tyInsProposalRequest.mainDto.insuredAppliDto.appliAddress = _toUrlEncode(person.address);
 
         tyInsProposalRequest.mainDto.insuredAppliDto.age = String.valueOf(person.age);
 
@@ -170,14 +170,14 @@ public class InsureRemote {
 
         TYInsProposalBean.InsuredDto insuredDto = new TYInsProposalBean.InsuredDto();
         insuredDto.insuredType = "1";
-        insuredDto.insuredName = URLEncoder.encode(person.name);
+        insuredDto.insuredName = _toUrlEncode(person.name);
         insuredDto.identifyType = tranCardType(person.card_type);
         insuredDto.identifyNumber = person.card_code;
         insuredDto.linkMobile = person.phone;
         insuredDto.sex = String.valueOf(person.sex);
         insuredDto.birth = person.birthday;
         insuredDto.email = person.email;
-        insuredDto.insuredAddress = URLEncoder.encode(person.address);
+        insuredDto.insuredAddress = _toUrlEncode(person.address);
         insuredDto.age = String.valueOf(person.age);
         insuredDto.relationSerialType = "01";
         insuredDto.occupationCode = "";
@@ -280,7 +280,7 @@ public class InsureRemote {
         request.mainDto.owner = "";
         request.mainDto.cardNo = "";
         request.mainDto.phone = "";
-        request.mainDto.pName = URLEncoder.encode("英大非机动车驾驶员意外险");
+        request.mainDto.pName = _toUrlEncode("英大非机动车驾驶员意外险");
 
         request.mainDto.channelDto = new TYInsProposalBean.ChannelDto();
         request.mainDto.channelDto.channelCode = "190000";
@@ -290,6 +290,10 @@ public class InsureRemote {
         request.mainDto.itemDeviceDto = new TYInsProposalBean.ItemDeviceDto();
 
         return request;
+    }
+
+    private String _toUrlEncode(String str){
+        return str!=null?URLEncoder.encode(str):"";
     }
 
     private String tranCardType(int type) {
