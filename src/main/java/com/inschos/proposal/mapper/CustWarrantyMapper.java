@@ -15,7 +15,7 @@ public interface CustWarrantyMapper {
 
     CustWarranty findUuid(String uuid);
 
-    int changeWarrantyStatus(CustWarranty record);
+    int updateWarrantyInfo(CustWarranty record);
 
     int updateProInfo(CustWarranty record);
 

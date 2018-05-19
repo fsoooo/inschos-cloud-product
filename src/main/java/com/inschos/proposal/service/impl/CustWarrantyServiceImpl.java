@@ -76,8 +76,8 @@ public class CustWarrantyServiceImpl extends BaseServiceImpl implements CustWarr
     }
 
     @Override
-    public int changeWarrantyStatus(CustWarranty record) {
-        return record!=null?custWarrantyMapper.changeWarrantyStatus(record):0;
+    public int changeWarrantyInfo(CustWarranty record) {
+        return record!=null?custWarrantyMapper.updateWarrantyInfo(record):0;
     }
 
     @Override

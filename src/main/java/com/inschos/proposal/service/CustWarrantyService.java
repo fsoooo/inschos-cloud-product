@@ -18,7 +18,7 @@ public interface CustWarrantyService {
 
     CustWarranty findByProPolicyNo(String proPolicyNo);
 
-    int changeWarrantyStatus(CustWarranty record);
+    int changeWarrantyInfo(CustWarranty record);
 
     int updateProInfo(CustWarranty record);
 }

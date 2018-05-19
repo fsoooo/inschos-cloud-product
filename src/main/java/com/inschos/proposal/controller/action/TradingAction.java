@@ -34,14 +34,16 @@ public class TradingAction extends BaseAction {
                 }else{
                     custWarranty.warranty_code = request.mainDto.policyNo;
                 }
-                if("4".equals(request.mainDto.status)){
-                    custWarranty.pay_status = CustWarranty.PAY_STATUS_ING;
-                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_BAOZHANGZHONG;
-                }else{
-                    custWarranty.pay_status = CustWarranty.PAY_STATUS_FAILED;
-                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
+                if(CustWarranty.WARRANTY_STATUS_BAOZHANGZHONG!=custWarranty.warranty_status){
+                    if("4".equals(request.mainDto.status)){
+                        custWarranty.pay_status = CustWarranty.PAY_STATUS_SUCCESS;
+                        custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_BAOZHANGZHONG;
+                    }else{
+                        custWarranty.pay_status = CustWarranty.PAY_STATUS_FAILED;
+                        custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
+                    }
                 }
-                custWarrantyService.updateProInfo(custWarranty);
+                custWarrantyService.changeWarrantyInfo(custWarranty);
             }
 
             return json(BaseResponse.CODE_SUCCESS, "回调成功");

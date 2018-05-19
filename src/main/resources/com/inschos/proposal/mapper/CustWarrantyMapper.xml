@@ -45,9 +45,9 @@
           `updated_at`=#{updated_at}
         where `warranty_uuid`=#{warranty_uuid}
     </update>
-    <update id="changeWarrantyStatus" parameterType="CustWarranty">
+    <update id="updateWarrantyInfo" parameterType="CustWarranty">
         update com_cust_warranty set
-          `check_status`=#{check_status},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},
+          `warranty_code`=#{warranty_code},`check_status`=#{check_status},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},
           `updated_at`=#{updated_at}
         where `warranty_uuid`=#{warranty_uuid}
     </update>

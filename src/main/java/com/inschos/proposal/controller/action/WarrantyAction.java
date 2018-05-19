@@ -66,7 +66,7 @@ public class WarrantyAction extends BaseAction {
                 if(custWarranty!=null){
                     custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
                     custWarranty.updated_at = currentTime;
-                    custWarrantyService.changeWarrantyStatus(custWarranty);
+                    custWarrantyService.changeWarrantyInfo(custWarranty);
                 }
 
                 return _toInsure(request);
