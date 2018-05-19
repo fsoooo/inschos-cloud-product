@@ -9,4 +9,6 @@ public interface PersonService {
 
     int join(Person person);
 
+    Person findByPapersCode(Person record);
+
 }

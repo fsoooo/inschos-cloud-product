@@ -80,39 +80,26 @@ public class WarrantyAction extends BaseAction {
 
         if (!StringKit.isEmpty(request.insured_name) && !StringKit.isEmpty(request.insured_code)) {
             long currentTime = TimeKit.currentTimeMillis();
-            Person person = new Person();
-            person.name = request.insured_name;
-            person.phone = request.insured_phone;
+            Person search = new Person();
 
-            person.email = request.insured_email;
-            person.papers_code = request.insured_code;
-            person.papers_type = Person.PAPERS_TYPE_ICCARD;
-            person.cust_type = Person.PERSON_TYPE_USER;
-            person.address_detail = request.insured_address;
-            person.status = 1;
-            person.sex = "F".equals(ICCardKit.getGenderByIdCard(person.papers_code)) ? 2 : 1;
-            person.birthday = ICCardKit.getBirthByIdCard(person.papers_code);
-            person.created_at = person.updated_at = currentTime;
+            search.papers_code = request.insured_code;
+            search.papers_type = Person.PAPERS_TYPE_ICCARD;
 
-            int result = personService.join(person);
 
-            if (!StringKit.isEmpty(request.bank_code)) {
+            Person person = personService.findByPapersCode(search);
+
+            if (person!=null) {
                 Bank bank = new Bank();
                 bank.bank = StringKit.isEmpty(request.bank_name) ? "" : request.bank_name;
                 bank.bank_city = StringKit.isEmpty(request.bank_address) ? "" : request.bank_address;
-                bank.bank_code = request.bank_code;
                 bank.phone = StringKit.isEmpty(request.bank_phone) ? "" : request.bank_phone;
                 bank.bank_deal_type = Bank.BANK_DEAL_TYPE_NOT_DELETE;
+
+                bank.bank_code = request.bank_code;
                 bank.cust_type = Person.PERSON_TYPE_USER;
                 bank.cust_id = person.id;
-                bank.created_at = currentTime;
-                bank.updated_at = currentTime;
-                if (result > 0) {
-                    bankService.join(bank);
-                }
 
                 if (request.insured_days > 0) {
-
 
                     CustWarranty warranty = new CustWarranty();
                     warranty.warranty_uuid = String.valueOf(WarrantyUuidWorker.getWorker(1, 1).nextId());
@@ -121,7 +108,7 @@ public class WarrantyAction extends BaseAction {
                     warranty.ditch_id = 0;
                     warranty.plan_id = 0;
                     warranty.ins_company_id = CustWarranty.DEFAULT_INS_YADA_ID;
-                    warranty.user_id = CustWarranty.DEFAULT_INS_YADA_ID;
+                    warranty.user_id = person.id;
                     warranty.user_type = CustWarranty.USER_TYPE_PRO;
                     // product id
                     warranty.product_id = 1;

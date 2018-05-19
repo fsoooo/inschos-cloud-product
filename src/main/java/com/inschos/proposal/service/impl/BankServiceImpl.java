@@ -27,4 +27,11 @@ public class BankServiceImpl implements BankService {
         }
         return result;
     }
+
+    @Override
+    public Bank findByUserAndCode(Bank search) {
+        return search!=null?bankMapper.findByUserAndCode(search):null;
+    }
+
+
 }

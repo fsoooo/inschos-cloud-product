@@ -37,4 +37,9 @@ public class PersonServiceImpl implements PersonService {
         }
         return result;
     }
+
+    @Override
+    public Person findByPapersCode(Person search) {
+        return search!=null?personMapper.findByPapersCode(search):null;
+    }
 }

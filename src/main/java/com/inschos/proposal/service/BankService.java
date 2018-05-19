@@ -8,4 +8,6 @@ import com.inschos.proposal.model.Bank;
 public interface BankService {
 
     int join(Bank record);
+
+    Bank findByUserAndCode(Bank search);
 }
