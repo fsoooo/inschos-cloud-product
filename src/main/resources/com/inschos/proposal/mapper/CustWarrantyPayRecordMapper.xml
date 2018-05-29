@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inschos.proposal.mapper.CustWarrantyPayRecordMapper">
+
+    <sql id="Base_Column_List">
+        `id`,`warranty_uuid`,`pay_time`,`pay_status`,`pay_count`,`pay_way`,`pay_account`,`person_phone`,`person_name`,`person_iccard`,`created_at`,`updated_at`
+    </sql>
+
+    <insert id="insert" parameterType="CustWarrantyPayRecord">
+        insert into com_cust_warranty_pay_record(`id`,`warranty_uuid`,`pay_time`,`pay_status`,`pay_count`,`pay_way`,`pay_account`,`person_phone`,`person_name`,`person_iccard`,`created_at`,`updated_at`)
+        values(
+          #{id},#{warranty_uuid},#{pay_time},#{pay_status},#{pay_count},#{pay_way},#{pay_account},#{person_phone},#{person_name},#{person_iccard},#{created_at},#{updated_at}
+        )
+    </insert>
+
+    <update id="update" parameterType="CustWarrantyPayRecord">
+        update com_cust_warranty_pay_record set
+          `warranty_uuid`=#{warranty_uuid},`pay_time`=#{pay_time},`pay_status`=#{pay_status},`pay_count`=#{pay_count},`pay_way`=#{pay_way},`pay_account`=#{pay_account},`person_phone`=#{person_phone},`person_name`=#{person_name},`person_iccard`=#{person_iccard},`created_at`=#{created_at},`updated_at`=#{updated_at}
+        where `id`=#{id}
+    </update>
+
+
+
+    <select id="selectOne" parameterType="long" resultType="CustWarrantyPayRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from com_cust_warranty_pay_record
+        where `id`=#{id}
+    </select>
+
+    <select id="selectCountByWarranty" parameterType="CustWarrantyPayRecord" resultType="int">
+        select count(1)
+        from com_cust_warranty_pay_record
+        <where>
+            warranty_uuid=#{warranty_uuid}
+        </where>
+    </select>
+    <select id="selectLastPay" parameterType="CustWarrantyPayRecord" resultType="CustWarrantyPayRecord">
+        select
+          <include refid="Base_Column_List"/>
+        from com_cust_warranty_pay_record
+        <where>
+            warranty_uuid=#{warranty_uuid}
+        </where>
+        order id desc
+        limit 1
+    </select>
+
+</mapper>

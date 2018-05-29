@@ -38,6 +38,9 @@ public class WarrantyBean {
 
         public int  insured_days;
 
+        public String warranty_uuid;
+
+        public String channel_order_code;
 
     }
 

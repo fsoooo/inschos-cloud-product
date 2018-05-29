@@ -111,12 +111,14 @@ public class WarrantyAction extends BaseAction {
                     warranty.user_id = person.id;
                     warranty.user_type = CustWarranty.USER_TYPE_PRO;
                     // product id
+                    warranty.business_no = request.channel_order_code;
                     warranty.product_id = 1;
                     warranty.premium = StringKit.isNumeric(request.price) ? Float.valueOf(request.price) : 0;
                     warranty.start_time = TimeKit.getDayStartTime(currentTime);
                     long endTime = TimeKit.add(TimeKit.getDayStartTime(currentTime), Calendar.DATE, request.insured_days) - 1;
                     warranty.end_time = endTime;
                     warranty.count = 1;
+                    warranty.comb_product=1;
                     warranty.by_stages_way = "0年";
                     warranty.is_settlement = 0;
                     warranty.warranty_from = 1;
@@ -124,6 +126,7 @@ public class WarrantyAction extends BaseAction {
                     warranty.check_status = 1;
                     warranty.pay_status = 0;
                     warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAICHULI;
+
                     warranty.created_at = currentTime;
                     warranty.updated_at = currentTime;
                     warranty.state = 1;

@@ -14,6 +14,7 @@ public class CustWarranty {
 
     public final static int CHECK_STATUS_FAILED = 2;
 
+    public final static int PAY_STATUS_WAITING = 0;
     public final static int PAY_STATUS_ING = 1;
 
     public final static int PAY_STATUS_SUCCESS = 2;
@@ -42,7 +43,17 @@ public class CustWarranty {
     
     public String warranty_code;
 
-    
+    /** 业务识别号*/
+    public String business_no;
+
+    /** 组合产品  0 不是  1是*/
+    public int comb_product;
+
+    /** 组合保单号*/
+    public String comb_warranty_code;
+
+
+
     public long company_id;
 
     

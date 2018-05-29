@@ -3,21 +3,15 @@
 <mapper namespace="com.inschos.proposal.mapper.CustWarrantyMapper">
 
     <sql id="Base_Column_List">
-        `id`,`pro_policy_no`,`warranty_code`,`warranty_uuid`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,
-        `product_id`,`premium`,`start_time`,`end_time`,`ins_company_id`,`count`,`pay_time`,`pay_way`,`by_stages_way`,`is_settlement`,
-        `warranty_url`,`warranty_from`,`type`,`check_status`,`pay_status`,`warranty_status`,`created_at`,`updated_at`,`state`
+        `id`,`warranty_uuid`,`pro_policy_no`,`warranty_code`,`business_no`,`comb_product`,`comb_warranty_code`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,`product_id`,`premium`,`start_time`,`end_time`,`ins_company_id`,`count`,`pay_time`,`pay_count`,`pay_way`,`by_stages_way`,`is_settlement`,`warranty_url`,`warranty_from`,`type`,`check_status`,`pay_status`,`warranty_status`,`created_at`,`updated_at`,`state`
     </sql>
 
     <insert id="insert" parameterType="CustWarranty">
         insert into com_cust_warranty(
-          `pro_policy_no`,`warranty_code`,`warranty_uuid`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,
-          `product_id`,`premium`,`start_time`,`end_time`,`ins_company_id`,`count`,`pay_time`,`pay_way`,`by_stages_way`,`is_settlement`,
-          `warranty_url`,`warranty_from`,`type`,`check_status`,`pay_status`,`warranty_status`,`created_at`,`updated_at`,`state`
+          `warranty_uuid`,`pro_policy_no`,`warranty_code`,`business_no`,`comb_product`,`comb_warranty_code`,`company_id`,`user_id`,`user_type`,`agent_id`,`ditch_id`,`plan_id`,`product_id`,`premium`,`start_time`,`end_time`,`ins_company_id`,`count`,`pay_time`,`pay_count`,`pay_way`,`by_stages_way`,`is_settlement`,`warranty_url`,`warranty_from`,`type`,`check_status`,`pay_status`,`warranty_status`,`created_at`,`updated_at`,`state`
         )
         select
-          #{pro_policy_no},#{warranty_code},#{warranty_uuid},#{company_id},#{user_id},#{user_type},#{agent_id},#{ditch_id},#{plan_id},
-          #{product_id},#{premium},#{start_time},#{end_time},#{ins_company_id},#{count},#{pay_time},#{pay_way},#{by_stages_way},#{is_settlement},
-          #{warranty_url},#{warranty_from},#{type},#{check_status},#{pay_status},#{warranty_status},#{created_at},#{updated_at},#{state}
+          #{warranty_uuid},#{pro_policy_no},#{warranty_code},#{business_no},#{comb_product},#{comb_warranty_code},#{company_id},#{user_id},#{user_type},#{agent_id},#{ditch_id},#{plan_id},#{product_id},#{premium},#{start_time},#{end_time},#{ins_company_id},#{count},#{pay_time},#{pay_count},#{pay_way},#{by_stages_way},#{is_settlement},#{warranty_url},#{warranty_from},#{type},#{check_status},#{pay_status},#{warranty_status},#{created_at},#{updated_at},#{state}
         from dual
         where not exists(
           select
@@ -31,17 +25,14 @@
 
     <update id="update" parameterType="CustWarranty">
         update com_cust_warranty set
-          `pro_policy_no`=#{pro_policy_no},`warranty_code`=#{warranty_code},`warranty_uuid`=#{warranty_uuid},`company_id`=#{company_id},`user_id`=#{user_id},`user_type`=#{user_type},
-          `agent_id`=#{agent_id},`ditch_id`=#{ditch_id},`plan_id`=#{plan_id},`product_id`=#{product_id},`premium`=#{premium},`start_time`=#{start_time},`end_time`=#{end_time},
-          `ins_company_id`=#{ins_company_id},`count`=#{count},`pay_time`=#{pay_time},`pay_way`=#{pay_way},`by_stages_way`=#{by_stages_way},`is_settlement`=#{is_settlement},`warranty_url`=#{warranty_url},
-          `warranty_from`=#{warranty_from},`type`=#{type},`check_status`=#{check_status},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},
-          `created_at`=#{created_at},`updated_at`=#{updated_at},`state`=#{state}
+          `warranty_uuid`=#{warranty_uuid},`pro_policy_no`=#{pro_policy_no},`warranty_code`=#{warranty_code},`business_no`=#{business_no},`comb_product`=#{comb_product},`comb_warranty_code`=#{comb_warranty_code},`company_id`=#{company_id},`user_id`=#{user_id},`user_type`=#{user_type},`agent_id`=#{agent_id},`ditch_id`=#{ditch_id},`plan_id`=#{plan_id},`product_id`=#{product_id},`premium`=#{premium},`start_time`=#{start_time},`end_time`=#{end_time},`ins_company_id`=#{ins_company_id},`count`=#{count},`pay_time`=#{pay_time},`pay_count`=#{pay_count},`pay_way`=#{pay_way},`by_stages_way`=#{by_stages_way},`is_settlement`=#{is_settlement},`warranty_url`=#{warranty_url},`warranty_from`=#{warranty_from},`type`=#{type},`check_status`=#{check_status},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},`created_at`=#{created_at},`updated_at`=#{updated_at},`state`=#{state}
         where `id`=#{id}
     </update>
     
     <update id="updateProInfo" parameterType="CustWarranty" >
         update com_cust_warranty set
-          `pro_policy_no`=#{pro_policy_no},`check_status`=#{check_status},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},
+          `pro_policy_no`=#{pro_policy_no},#{comb_warranty_code}=#{comb_warranty_code},`check_status`=#{check_status},
+          `pay_way`=#{pay_way},`pay_status`=#{pay_status},`warranty_status`=#{warranty_status},
           `updated_at`=#{updated_at}
         where `warranty_uuid`=#{warranty_uuid}
     </update>

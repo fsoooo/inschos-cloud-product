@@ -90,8 +90,10 @@ public class InsureRemote {
                                 if (!proPolicyNos.isEmpty()) {
 
                                     warranty.pro_policy_no = StringKit.join(proPolicyNos,",");
+                                    warranty.comb_warranty_code = response.mainDto.cardPolicyNo;
                                     warranty.check_status = CustWarranty.CHECK_STATUS_SUCCESS;
-                                    warranty.pay_status = CustWarranty.PAY_STATUS_ING;
+                                    warranty.pay_status = CustWarranty.PAY_STATUS_WAITING;
+                                    warranty.pay_status = 1;
                                     warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
                                     warranty.updated_at = TimeKit.currentTimeMillis();
                                     custWarrantyService.updateProInfo(warranty);
