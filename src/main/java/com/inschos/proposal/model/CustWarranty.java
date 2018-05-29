@@ -89,6 +89,7 @@ public class CustWarranty {
     
     public int count;
 
+    public int pay_count;
     
     public long pay_time;
 
