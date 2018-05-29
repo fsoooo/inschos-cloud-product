@@ -75,7 +75,7 @@ public class CustWarranty {
     public long product_id;
 
     /** 保单价格*/
-    public String premium;
+    public float premium;
 
     /** 起保时间*/
     public long start_time;
