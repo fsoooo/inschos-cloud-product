@@ -42,6 +42,7 @@ public class TradingAction extends BaseAction {
                         custWarranty.pay_status = CustWarranty.PAY_STATUS_FAILED;
                         custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
                     }
+                    custWarranty.resp_pay_msg = toMsg(StringKit.isEmpty(request.mainDto.status)?request.head.transType:request.mainDto.status);
                 }
                 custWarrantyService.changeWarrantyInfo(custWarranty);
             }
@@ -55,6 +56,31 @@ public class TradingAction extends BaseAction {
 
     }
 
+    private String toMsg(String status){
+
+        String msg = "";
+        if(StringKit.isInteger(status)){
+            switch (status){
+                case "01":
+                    msg = "生成保单失败";
+                    break;
+                case "02":
+                    msg = "生成保单成功";
+                    break;
+                case "3":
+                    msg = "缴费成功未生成保单";
+                    break;
+                case "4":
+                    msg = "生成保单";
+                    break;
+                case "5":
+                    msg = "缴费失败";
+                    break;
+
+            }
+        }
+        return msg;
+    }
 
 
     private boolean verifySign(TradingCallBackBean.PayCallBackRequest request) {

@@ -93,9 +93,9 @@ public class InsureRemote {
                                     warranty.comb_warranty_code = response.mainDto.cardPolicyNo;
                                     warranty.check_status = CustWarranty.CHECK_STATUS_SUCCESS;
                                     warranty.pay_status = CustWarranty.PAY_STATUS_WAITING;
-                                    warranty.pay_status = 1;
                                     warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
                                     warranty.updated_at = TimeKit.currentTimeMillis();
+                                    warranty.resp_insure_msg = response.mainDto.message+(StringKit.isEmpty(response.mainDto.errMsg)?"":("["+response.mainDto.errMsg+"]"));
                                     custWarrantyService.updateProInfo(warranty);
                                 }
 
@@ -141,11 +141,11 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.endHour = "24";
 
 
-        tyInsProposalRequest.mainDto.idCard = EncryptUtil.encode(person.card_code, EncryptUtil.getDKey());
+        tyInsProposalRequest.mainDto.idCard = toEncrypt(person.card_code);
         //todo  url de
-        tyInsProposalRequest.mainDto.owner = EncryptUtil.encode(_toUrlEncode(person.name), EncryptUtil.getDKey());
-        tyInsProposalRequest.mainDto.cardNo = EncryptUtil.encode(bank.bank_code, EncryptUtil.getDKey());
-        tyInsProposalRequest.mainDto.phone = EncryptUtil.encode(bank.phone, EncryptUtil.getDKey());
+        tyInsProposalRequest.mainDto.owner = toEncrypt(_toUrlEncode(person.name));
+        tyInsProposalRequest.mainDto.cardNo = toEncrypt(bank.bank_code);
+        tyInsProposalRequest.mainDto.phone = toEncrypt(bank.phone);
 
 
         tyInsProposalRequest.mainDto.channelDto.channelCode = "190000";
@@ -324,6 +324,15 @@ public class InsureRemote {
             return port_pro;
         } else {
             return port;
+        }
+    }
+
+    private String toEncrypt(String input){
+
+        if(input==null){
+            return "";
+        }else{
+            return EncryptUtil.encode(input, EncryptUtil.getDKey());
         }
     }
 }
