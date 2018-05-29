@@ -55,7 +55,7 @@ public class InsureRemote {
 
         TcpClientNocar client = new TcpClientNocar();
         String charsetName = Charset.defaultCharset().displayName();
-        logger.debug("system charset displayName {}",charsetName);
+        logger.debug("system charset displayName {}", charsetName);
         client.setEncoding(charsetName);
         client.setHeadBeforeLength("");
 
@@ -82,14 +82,14 @@ public class InsureRemote {
                                 List<TYInsProposalBean.ProToPoDto> poDtoList = response.mainDto.proToPoDtoList;
                                 List<String> proPolicyNos = new ArrayList<>();
 
-                                if(poDtoList!=null){
+                                if (poDtoList != null) {
                                     for (TYInsProposalBean.ProToPoDto proToPoDto : poDtoList) {
                                         proPolicyNos.add(proToPoDto.proposalNo);
                                     }
                                 }
                                 if (!proPolicyNos.isEmpty()) {
 
-                                    warranty.pro_policy_no = StringKit.join(proPolicyNos,",");
+                                    warranty.pro_policy_no = StringKit.join(proPolicyNos, ",");
                                     warranty.comb_warranty_code = response.mainDto.cardPolicyNo;
                                     warranty.check_status = CustWarranty.CHECK_STATUS_SUCCESS;
                                     warranty.pay_status = CustWarranty.PAY_STATUS_WAITING;
@@ -115,7 +115,7 @@ public class InsureRemote {
         }
         if (!isRequestSuccess) {
             warranty.check_status = CustWarranty.CHECK_STATUS_FAILED;
-            warranty.warranty_status =CustWarranty.WARRANTY_STATUS_YISHIXIAO;
+            warranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
             warranty.updated_at = TimeKit.currentTimeMillis();
             custWarrantyService.updateProInfo(warranty);
         }
@@ -148,7 +148,6 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.phone = EncryptUtil.encode(bank.phone, EncryptUtil.getDKey());
 
 
-
         tyInsProposalRequest.mainDto.channelDto.channelCode = "190000";
         tyInsProposalRequest.mainDto.channelDto.channelTradeCode = "1900020";
         tyInsProposalRequest.mainDto.channelDto.channelTradeSerialNo = "201803C1001300000219";
@@ -168,8 +167,6 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.insuredAppliDto.age = String.valueOf(person.age);
 
 
-
-
         TYInsProposalBean.InsuredDto insuredDto = new TYInsProposalBean.InsuredDto();
         insuredDto.insuredType = "1";
         insuredDto.insuredName = _toUrlEncode(person.name);
@@ -187,8 +184,8 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.insuredDtoList.add(insuredDto);
 
         String displayName = Charset.defaultCharset().displayName();
-        String head = String.format(bodyHead,displayName);
-        L.log.debug("head {}",head);
+        String head = String.format(bodyHead, displayName);
+        L.log.debug("head {}", head);
         return head + XmlKit.bean2Xml(tyInsProposalRequest);
 
     }
@@ -231,7 +228,19 @@ public class InsureRemote {
         request.mainDto.updaterCode = "";
 
 
-//        request.mainDto.makeCom = "12010000";
+        //线上
+        if (remotePro) {
+            request.mainDto.makeCom = "12260402";
+            request.mainDto.comCode = "12260402";
+            request.mainDto.operatorCode = "12030018";
+            request.mainDto.operatorName = "";
+            request.mainDto.handlerCode = "12063706";
+            request.mainDto.handler1Code = "12063706";
+            request.mainDto.agentCode = "U12262000019";
+            request.mainDto.agreementNo = "U12262000019-01";
+            request.mainDto.userCode = "12030018";
+        } else {
+            //        request.mainDto.makeCom = "12010000";
 //        request.mainDto.comCode = "12010000";
 //        request.mainDto.operatorCode = "12069004";
 //        request.mainDto.operatorName = "";
@@ -252,26 +261,16 @@ public class InsureRemote {
 //        request.mainDto.userCode = "12010001";
 
 
-//        request.mainDto.makeCom = "12010010";
-//        request.mainDto.comCode = "12010010";
-//        request.mainDto.operatorCode = "12345098";
-//        request.mainDto.operatorName = "";
-//        request.mainDto.handlerCode = "12345098";
-//        request.mainDto.handler1Code = "12345098";
-//        request.mainDto.agentCode = "U12011800001";
-//        request.mainDto.agreementNo = "U12011800001-01";
-//        request.mainDto.userCode = "12010001";
-
-        //线上
-        request.mainDto.makeCom = "12260402";
-        request.mainDto.comCode = "12260402";
-        request.mainDto.operatorCode = "12030018";
-        request.mainDto.operatorName = "";
-        request.mainDto.handlerCode = "12063706";
-        request.mainDto.handler1Code = "12063706";
-        request.mainDto.agentCode = "U12262000019";
-        request.mainDto.agreementNo = "U12262000019-01";
-        request.mainDto.userCode = "12030018";
+            request.mainDto.makeCom = "12010010";
+            request.mainDto.comCode = "12010010";
+            request.mainDto.operatorCode = "12345098";
+            request.mainDto.operatorName = "";
+            request.mainDto.handlerCode = "12345098";
+            request.mainDto.handler1Code = "12345098";
+            request.mainDto.agentCode = "U12011800001";
+            request.mainDto.agreementNo = "U12011800001-01";
+            request.mainDto.userCode = "12010001";
+        }
 
 
         request.mainDto.shareholderFlag = "0";
@@ -294,8 +293,8 @@ public class InsureRemote {
         return request;
     }
 
-    private String _toUrlEncode(String str){
-        return str!=null?URLEncoder.encode(str):"";
+    private String _toUrlEncode(String str) {
+        return str != null ? URLEncoder.encode(str) : "";
     }
 
     private String tranCardType(int type) {
@@ -312,18 +311,18 @@ public class InsureRemote {
         return result;
     }
 
-    private String getHost(){
-        if(remotePro){
+    private String getHost() {
+        if (remotePro) {
             return host_pro;
-        }else{
+        } else {
             return host;
         }
     }
 
-    private int getPort(){
-        if(remotePro){
+    private int getPort() {
+        if (remotePro) {
             return port_pro;
-        }else{
+        } else {
             return port;
         }
     }
