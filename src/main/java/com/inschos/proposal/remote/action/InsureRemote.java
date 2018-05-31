@@ -240,6 +240,8 @@ public class InsureRemote {
             request.mainDto.agreementNo = "U12262000019-01";
             request.mainDto.userCode = "12030018";
         } else {
+
+            //模拟环境
             //        request.mainDto.makeCom = "12010000";
 //        request.mainDto.comCode = "12010000";
 //        request.mainDto.operatorCode = "12069004";
@@ -249,7 +251,7 @@ public class InsureRemote {
 //        request.mainDto.agentCode = "U12002000001";
 //        request.mainDto.agreementNo = "U12002000001-01";
 //        request.mainDto.userCode = "12010001";
-
+            //用户环境
 //        request.mainDto.makeCom = "12010000";
 //        request.mainDto.comCode = "12010000";
 //        request.mainDto.operatorCode = "12019998";
@@ -260,7 +262,7 @@ public class InsureRemote {
 //        request.mainDto.agreementNo = "U12242000001-02";
 //        request.mainDto.userCode = "12010001";
 
-
+            //集成环境
             request.mainDto.makeCom = "12010010";
             request.mainDto.comCode = "12010010";
             request.mainDto.operatorCode = "12345098";
