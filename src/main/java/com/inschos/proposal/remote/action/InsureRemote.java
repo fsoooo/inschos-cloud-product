@@ -246,7 +246,7 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.insuredDtoList.add(insuredDto);
 
         String displayName = Charset.defaultCharset().displayName();
-        String head = String.format(bodyHead, displayName);
+        String head = String.format(bodyHead, "GBK");
         L.log.debug("head {}", head);
         return head + XmlKit.bean2Xml(tyInsProposalRequest);
 
