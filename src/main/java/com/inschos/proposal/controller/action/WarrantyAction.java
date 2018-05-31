@@ -75,6 +75,9 @@ public class WarrantyAction extends BaseAction {
         return null;
     }
 
+    public String query(){
+        return insureRemote.query();
+    }
 
     private String _toInsure(WarrantyBean.InsureRequest request){
 

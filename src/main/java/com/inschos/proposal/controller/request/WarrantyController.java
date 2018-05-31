@@ -34,5 +34,10 @@ public class WarrantyController {
 //        return warrantyAction.insureTest(body);
     }
 
+    @RequestMapping("/query")
+    @ResponseBody
+    public String query(){
+        return warrantyAction.query();
+    }
 
 }

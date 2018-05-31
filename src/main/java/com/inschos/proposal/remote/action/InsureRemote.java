@@ -6,6 +6,7 @@ import com.inschos.proposal.model.Bank;
 import com.inschos.proposal.model.CustWarranty;
 import com.inschos.proposal.model.CustWarrantyPerson;
 import com.inschos.proposal.model.Person;
+import com.inschos.proposal.remote.bean.NoCarPrPoEnQueryBean;
 import com.inschos.proposal.remote.bean.TYInsProposalBean;
 import com.inschos.proposal.service.CustWarrantyService;
 import org.apache.commons.lang3.StringUtils;
@@ -119,6 +120,66 @@ public class InsureRemote {
             warranty.updated_at = TimeKit.currentTimeMillis();
             custWarrantyService.updateProInfo(warranty);
         }
+    }
+
+    public String query(){
+        TcpClientNocar client = new TcpClientNocar();
+        String charsetName = Charset.defaultCharset().displayName();
+        logger.debug("system charset displayName {}", charsetName);
+        client.setEncoding(charsetName);
+        client.setHeadBeforeLength("");
+
+        client.setHeadAfterLength(StringUtils.rightPad(this.s, 7) + "gs0007");
+        client.setLengthHeadSize(6);
+        client.setLengthHeadPad(TcpClientNocar.PAD_RIGHT);
+        client.setLengthHeadPadChar(" ");
+        String call = null;
+        try {
+            call = client.call(getHost(), getPort(), getQueryRequestXml());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!StringKit.isEmpty(call)) {
+
+        }
+        logger.debug(call);
+        return call;
+    }
+
+    private String getQueryRequestXml(){
+        NoCarPrPoEnQueryBean.NoCarPrPoEnQueryRequest request = new NoCarPrPoEnQueryBean.NoCarPrPoEnQueryRequest();
+        request.headDto = new NoCarPrPoEnQueryBean.RequestHeadDto();
+
+
+        request.headDto.requestType = "01";
+        request.headDto.user = "ydcxCard";
+        request.headDto.passWord = "Ydcx5196Card";
+
+        request.headDto.queryId = "";
+        request.headDto.sourceSystemCode = "";
+        request.headDto.versionNo = "";
+        request.headDto.areaCode = "";
+        request.headDto.areaName = "";
+        request.headDto.tradeTime = TimeKit.format("yyyyMMddHHmmss",TimeKit.currentTimeMillis());;
+        request.headDto.responseType = "01";
+        request.headDto.signData = "";
+
+        request.mainDto = new NoCarPrPoEnQueryBean.NoCarPrPoEnQueryRequestDto();
+        request.mainDto.businessNo = "1120130072018000631YD";
+        request.mainDto.businessType = "T";
+        //T120115282018000533,T120127702018000514
+        request.mainDto.channelDto = new NoCarPrPoEnQueryBean.ChannelDto();
+        request.mainDto.channelDto.channelCode="190000";
+        request.mainDto.channelDto.channelTradeCode = "1900020";
+
+        request.mainDto.channelDto.channelTradeSerialNo = TimeKit.format("yyyyMMddHHmmss",TimeKit.currentTimeMillis());
+        request.mainDto.channelDto.channelTradeDate =TimeKit.format("yyyyMMdd",TimeKit.currentTimeMillis());
+
+
+        String displayName = Charset.defaultCharset().displayName();
+        String head = String.format(bodyHead, displayName);
+        L.log.debug("head {}", head);
+        return head + XmlKit.bean2Xml(request);
     }
 
     private String getRequestXml(CustWarranty warranty, CustWarrantyPerson person, Bank bank) {
