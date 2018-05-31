@@ -168,6 +168,7 @@ public class InsureRemote {
         request.mainDto.businessNo = "1120130072018000631YD";
         request.mainDto.businessType = "T";
         //T120115282018000533,T120127702018000514
+        request.mainDto.cardProductFlag = "TY";
         request.mainDto.channelDto = new NoCarPrPoEnQueryBean.ChannelDto();
         request.mainDto.channelDto.channelCode="190000";
         request.mainDto.channelDto.channelTradeCode = "1900020";
