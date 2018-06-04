@@ -43,6 +43,13 @@
         where `warranty_uuid`=#{warranty_uuid}
     </update>
 
+    <update id="updateToInvalid" parameterType="CustWarranty">
+        update com_cust_warranty set
+          `warranty_status`=#{warranty_status},`updated_at`=#{updated_at}
+        where `company_id`=#{company_id} and `warranty_status`=#{search_warranty_status} and  `end_time` &lt;=#{cur_time}
+    </update>
+
+
     <select id="findOne" parameterType="int" resultType="CustWarranty">
         select
         <include refid="Base_Column_List"/>
@@ -73,5 +80,7 @@
         where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and `warranty_status`!=6 and p.card_code=#{search_card_code}
         limit 1
     </select>
+
+
 
 </mapper>

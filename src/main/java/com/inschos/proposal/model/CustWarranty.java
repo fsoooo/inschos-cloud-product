@@ -141,5 +141,9 @@ public class CustWarranty {
 
     public String search_card_code;
 
+    public long cur_time;
+
+    public int search_warranty_status;
+
 
 }

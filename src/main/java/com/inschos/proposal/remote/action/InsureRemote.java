@@ -65,6 +65,7 @@ public class InsureRemote {
         client.setLengthHeadPad(TcpClientNocar.PAD_RIGHT);
         client.setLengthHeadPadChar(" ");
         boolean isRequestSuccess = false;
+        String errMsg = null;
         try {
 
 
@@ -100,11 +101,24 @@ public class InsureRemote {
                                     custWarrantyService.updateProInfo(warranty);
                                 }
 
+                            }else{
+                                List<TYInsProposalBean.ProToPoDto> poDtoList = response.mainDto.proToPoDtoList;
+                                List<String> proPolicyNos = new ArrayList<>();
+                                if (poDtoList != null) {
+                                    for (TYInsProposalBean.ProToPoDto proToPoDto : poDtoList) {
+                                        proPolicyNos.add(proToPoDto.proposalNo);
+                                    }
+                                }
+                                warranty.pro_policy_no = StringKit.join(proPolicyNos, ",");
+                                errMsg = StringKit.isEmpty(response.mainDto.errMsg)?response.mainDto.message:response.mainDto.errMsg;
                             }
+                        }else {
+                            errMsg = response.headDto.errorCode+"|"+response.headDto.errorMessage;
                         }
 
 
                     } else {
+                        errMsg = response.headDto.errorCode+"|"+response.headDto.errorMessage;
                         logger.error("insure response  failed msg:{}", call);
                     }
                 } else {
@@ -115,6 +129,7 @@ public class InsureRemote {
             logger.error("insure call error", e);
         }
         if (!isRequestSuccess) {
+            warranty.resp_insure_msg = errMsg;
             warranty.check_status = CustWarranty.CHECK_STATUS_FAILED;
             warranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
             warranty.updated_at = TimeKit.currentTimeMillis();
