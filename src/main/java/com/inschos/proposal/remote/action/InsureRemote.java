@@ -113,12 +113,12 @@ public class InsureRemote {
                                 errMsg = StringKit.isEmpty(response.mainDto.errMsg)?response.mainDto.message:response.mainDto.errMsg;
                             }
                         }else {
-                            errMsg = response.headDto.errorCode+"|"+response.headDto.errorMessage;
+                            errMsg = !StringKit.isEmpty(response.headDto.errorCode)?(response.headDto.errorCode+"|"+response.headDto.errorMessage):(!StringKit.isEmpty(response.headDto.esbCode)?(response.headDto.esbCode+"|"+response.headDto.esbMessage):null);
                         }
 
 
                     } else {
-                        errMsg = response.headDto.errorCode+"|"+response.headDto.errorMessage;
+                        errMsg = !StringKit.isEmpty(response.headDto.errorCode)?(response.headDto.errorCode+"|"+response.headDto.errorMessage):(!StringKit.isEmpty(response.headDto.esbCode)?(response.headDto.esbCode+"|"+response.headDto.esbMessage):null);
                         logger.error("insure response  failed msg:{}", call);
                     }
                 } else {
