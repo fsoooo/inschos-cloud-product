@@ -31,6 +31,8 @@ public class CustWarranty {
 
     public final static int WARRANTY_STATUS_YISHIXIAO = 6;
 
+    public final static int WARRANTY_STATUS_YIGUOBAO = 8;
+
 
     /** 主键*/
     public long id;
