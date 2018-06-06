@@ -29,11 +29,13 @@ public class WarrantyTaskWork {
         int baozhanghzong = custWarrantyService.updateToInvalid(warranty);
         L.log.info("保障中 到已过保 记录条数:{}",baozhanghzong);
 
+        warranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
         warranty.search_warranty_status = CustWarranty.WARRANTY_STATUS_DAICHULI;
         warranty.updated_at = TimeKit.currentTimeMillis();
         int daichuli = custWarrantyService.updateToInvalid(warranty);
         L.log.info("核保中 到已失效 记录条数:{}",daichuli);
 
+        warranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
         warranty.search_warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
         warranty.updated_at = TimeKit.currentTimeMillis();
         int daizhifu = custWarrantyService.updateToInvalid(warranty);

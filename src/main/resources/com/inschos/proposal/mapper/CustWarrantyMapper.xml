@@ -74,10 +74,11 @@
 
     <select id="findExists" parameterType="CustWarranty" resultType="CustWarranty">
         select
-          w.id,w.warranty_uuid,w.check_status,w.pay_status,w.warranty_status,w.updated_at
+          w.`id`,w.`warranty_uuid`,w.`pro_policy_no`,w.`warranty_code`,w.`business_no`,w.`comb_product`,w.`comb_warranty_code`,w.`company_id`,w.`user_id`,w.`user_type`,w.`agent_id`,w.`ditch_id`,w.`plan_id`,w.`product_id`,w.`premium`,w.`start_time`,w.`end_time`,w.`ins_company_id`,w.`count`,w.`pay_time`,w.`pay_count`,w.`pay_way`,w.`by_stages_way`,w.`is_settlement`,w.`warranty_url`,w.`warranty_from`,w.`type`,w.`check_status`,w.`pay_status`,w.`warranty_status`,w.`resp_insure_msg`,w.`resp_pay_msg`,w.`created_at`,w.`updated_at`,w.`state`
         from  com_cust_warranty w
         left join com_cust_warranty_person p on w.warranty_uuid = p.warranty_uuid
-        where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and `warranty_status`!=6 and p.card_code=#{search_card_code}
+        where w.`start_time` &lt;= #{end_time} and w.`end_time` &gt;#{start_time} and `warranty_status`!=6  and p.card_code=#{search_card_code}
+        order by  w.id desc
         limit 1
     </select>
 

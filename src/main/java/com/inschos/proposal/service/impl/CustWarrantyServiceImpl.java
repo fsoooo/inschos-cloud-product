@@ -30,7 +30,19 @@ public class CustWarrantyServiceImpl extends BaseServiceImpl implements CustWarr
         int result = 0;
         if(record!=null && warrantyPerson !=null){
             record.search_card_code = warrantyPerson.card_code;
-            if(custWarrantyMapper.findExists(record)==null){
+            CustWarranty exists = custWarrantyMapper.findExists(record);
+            boolean isOk = false;
+            if(exists!=null){
+                if (exists.warranty_status==CustWarranty.WARRANTY_STATUS_DAIZHIFU && exists.pay_status==CustWarranty.PAY_STATUS_FAILED){
+                    exists.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
+                    exists.updated_at = TimeKit.currentTimeMillis();
+                    isOk=custWarrantyMapper.updateWarrantyInfo(exists)>0;
+                }
+            }else{
+                isOk = true;
+            }
+
+            if(isOk){
                 result = custWarrantyMapper.insert(record);
                 warrantyPerson.warranty_uuid = record.warranty_uuid;
                 if(result>0){
@@ -49,7 +61,6 @@ public class CustWarrantyServiceImpl extends BaseServiceImpl implements CustWarr
                     }
                 }
             }
-
         }
         return result;
     }
