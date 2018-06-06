@@ -27,23 +27,34 @@ public class TradingAction extends BaseAction {
         if (verifySign(request)) {
             L.log.info("pay call back success");
 
-            CustWarranty custWarranty = custWarrantyService.findByProPolicyNo(request.mainDto.proposalNo);
+            CustWarranty custWarranty = custWarrantyService.findByProPolicyNo(request.cardPolicyNo);
             if(custWarranty!=null){
-                if(!StringKit.isEmpty(custWarranty.warranty_code)){
-                    custWarranty.warranty_code += ","+request.mainDto.policyNo;
-                }else{
-                    custWarranty.warranty_code = request.mainDto.policyNo;
-                }
-                if(CustWarranty.WARRANTY_STATUS_BAOZHANGZHONG!=custWarranty.warranty_status){
-                    if("4".equals(request.mainDto.status)){
-                        custWarranty.pay_status = CustWarranty.PAY_STATUS_SUCCESS;
-                        custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_BAOZHANGZHONG;
-                    }else{
-                        custWarranty.pay_status = CustWarranty.PAY_STATUS_FAILED;
-                        custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
+                custWarranty.comb_warranty_code = request.cardPolicyNo;
+                String status = "";
+                StringBuilder code = null;
+                for (TradingCallBackBean.PolicyData policyData : request.policyList) {
+                    if(!"4".equals(status)){
+                        status = policyData.status;
                     }
-                    custWarranty.resp_pay_msg = toMsg(StringKit.isEmpty(request.mainDto.status)?request.head.transType:request.mainDto.status);
+                    if(!StringKit.isEmpty(policyData.policyNo)){
+                        if(code==null){
+                            code = new StringBuilder(policyData.policyNo);
+                        }else{
+                            code.append(",").append(policyData.policyNo);
+                        }
+                    }
                 }
+                if(code!=null){
+                    custWarranty.warranty_code = code.toString();
+                }
+                if("4".equals(status)){
+                    custWarranty.pay_status = CustWarranty.PAY_STATUS_SUCCESS;
+                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_BAOZHANGZHONG;
+                }else{
+                    custWarranty.pay_status = CustWarranty.PAY_STATUS_FAILED;
+                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
+                }
+                custWarranty.resp_pay_msg = toMsg(StringKit.isEmpty(status)?request.head.transType:status);
                 custWarrantyService.changeWarrantyInfo(custWarranty);
             }
 
@@ -85,10 +96,13 @@ public class TradingAction extends BaseAction {
 
     private boolean verifySign(TradingCallBackBean.PayCallBackRequest request) {
         boolean isSuccess = false;
-        if (request != null && request.head != null && request.mainDto != null) {
-            String oldSign = request.mainDto.signDate;
-            String sign = Md5Util.getMD5String(request.head.requestType + request.mainDto.proposalNo + request.mainDto.status + request.head.requestType);
-            isSuccess = sign.equals(oldSign);
+        if (request != null && request.head != null && !StringKit.isEmpty(request.cardPolicyNo) && request.policyList!=null &&!request.policyList.isEmpty()) {
+            for (TradingCallBackBean.PolicyData policyData : request.policyList) {
+                isSuccess = policyData.signDate.equals(Md5Util.getMD5String(request.head.requestType+policyData.proposalNo+policyData.status+request.head.requestType));
+                if(!isSuccess){
+                    break;
+                }
+            }
         }
         return isSuccess;
     }

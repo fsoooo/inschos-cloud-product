@@ -87,6 +87,11 @@ public class CustWarrantyServiceImpl extends BaseServiceImpl implements CustWarr
     }
 
     @Override
+    public CustWarranty findByCombWarrantyCode(CustWarranty search) {
+        return search!=null?custWarrantyMapper.findByCombWarrantyCode(search):null;
+    }
+
+    @Override
     public int updateToInvalid(CustWarranty update) {
         return update!=null?custWarrantyMapper.updateToInvalid(update):0;
     }

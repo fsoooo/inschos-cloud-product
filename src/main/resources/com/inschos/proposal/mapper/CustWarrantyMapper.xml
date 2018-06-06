@@ -82,6 +82,12 @@
         limit 1
     </select>
 
+    <select id="findByCombWarrantyCode" parameterType="CustWarranty" resultType="CustWarranty">
+        select
+        <include refid="Base_Column_List"/>
+        from  com_cust_warranty
+        where `comb_warranty_code`=#{comb_warranty_code}
+    </select>
 
 
 </mapper>
