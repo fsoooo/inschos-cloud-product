@@ -31,6 +31,7 @@ public class TradingAction extends BaseAction {
             if(custWarranty!=null){
                 custWarranty.comb_warranty_code = request.cardPolicyNo;
                 String status = "";
+
                 StringBuilder code = null;
                 for (TradingCallBackBean.PolicyData policyData : request.policyList) {
                     if(!"4".equals(status)){
