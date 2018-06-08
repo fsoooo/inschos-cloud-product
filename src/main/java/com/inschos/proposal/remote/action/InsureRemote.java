@@ -307,15 +307,37 @@ public class InsureRemote {
 
         //线上
         if (remotePro) {
+//            request.mainDto.makeCom = "12260402";
+//            request.mainDto.comCode = "12260402";
+//            request.mainDto.operatorCode = "12030018";
+//            request.mainDto.operatorName = "";
+//            request.mainDto.handlerCode = "12063706";
+//            request.mainDto.handler1Code = "12063706";
+//            request.mainDto.agentCode = "U12262000019";
+//            request.mainDto.agreementNo = "U12262000019-01";
+//            request.mainDto.userCode = "12030018";
+//            request.mainDto.shareholderFlag = "0";
+//            request.mainDto.businessNature = "2";
+//            request.mainDto.shareholderName = "A27";
+//            request.mainDto.shareholderKindCode = "B90";
+
             request.mainDto.makeCom = "12260402";
             request.mainDto.comCode = "12260402";
             request.mainDto.operatorCode = "12030018";
             request.mainDto.operatorName = "";
             request.mainDto.handlerCode = "12063706";
             request.mainDto.handler1Code = "12063706";
-            request.mainDto.agentCode = "U12262000019";
-            request.mainDto.agreementNo = "U12262000019-01";
+            request.mainDto.agentCode = "O12261800005";
+            request.mainDto.agreementNo = "O12261800005-01";
             request.mainDto.userCode = "12030018";
+
+            request.mainDto.shareholderFlag = "0";
+            request.mainDto.businessNature = "4";
+            request.mainDto.shareholderName = "A27";
+//            request.mainDto.shareholderKindCode = "B75";
+            request.mainDto.shareholderKindCode = "B90";
+
+
         } else {
 
             //模拟环境
@@ -349,13 +371,16 @@ public class InsureRemote {
             request.mainDto.agentCode = "U12011800001";
             request.mainDto.agreementNo = "U12011800001-01";
             request.mainDto.userCode = "12010001";
+
+
+            request.mainDto.shareholderFlag = "0";
+            request.mainDto.businessNature = "2";
+            request.mainDto.shareholderName = "A27";
+            request.mainDto.shareholderKindCode = "B90";
         }
 
 
-        request.mainDto.shareholderFlag = "0";
-        request.mainDto.businessNature = "2";
-        request.mainDto.shareholderName = "A27";
-        request.mainDto.shareholderKindCode = "B90";
+
         request.mainDto.idCard = "";
         request.mainDto.owner = "";
         request.mainDto.cardNo = "";
