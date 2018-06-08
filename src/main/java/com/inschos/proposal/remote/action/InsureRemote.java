@@ -334,7 +334,9 @@ public class InsureRemote {
             request.mainDto.shareholderFlag = "0";
             request.mainDto.businessNature = "4";
             request.mainDto.shareholderName = "A27";
-            request.mainDto.shareholderKindCode = "B75";
+//            request.mainDto.shareholderKindCode = "B75";
+            request.mainDto.shareholderKindCode = "B90";
+
 
         } else {
 
