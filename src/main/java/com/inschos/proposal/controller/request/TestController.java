@@ -21,12 +21,23 @@ public class TestController {
 
     @RequestMapping("/send")
     @ResponseBody
-    public String testSend(){
+    public String testSend(HttpServletRequest request){
+
+        String card = request.getParameter("card");
+
         Bank bank = new Bank();
-        bank.userName = "梅明";
-        bank.userIdCard = "50023519920615927X";
-        bank.bank_code = "6212260200152753105";
-        bank.phone = "15101691357";
+        if("1".equals(card)){
+            bank.userName = "梅明";
+            bank.userIdCard = "50023519920615927X";
+            bank.bank_code = "6212260200152753105";
+            bank.phone = "15101691357";
+        }else if("2".equals(card)){
+            bank.userName = "梅明";
+            bank.userIdCard = "50023519920615927X";
+            bank.bank_code = "6214830115800632";
+            bank.phone = "15101691357";
+        }
+
 
         return authenticateRemote.sendAuth(bank);
     }
