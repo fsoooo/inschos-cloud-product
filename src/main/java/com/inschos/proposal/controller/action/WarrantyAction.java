@@ -122,7 +122,7 @@ public class WarrantyAction extends BaseAction {
                     warranty.end_time = endTime;
                     warranty.count = 1;
                     warranty.comb_product=1;
-                    warranty.by_stages_way = "0年";
+                    warranty.by_stages_way = "趸缴";
                     warranty.is_settlement = 0;
                     warranty.warranty_from = 1;
                     warranty.type = 1;
