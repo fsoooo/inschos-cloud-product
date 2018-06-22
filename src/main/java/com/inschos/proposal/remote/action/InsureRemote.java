@@ -34,6 +34,7 @@ public class InsureRemote {
 
     // 10.128.20.64
 
+
     private final String host = "211.160.75.141";
 
     private final String host_pro = "211.160.75.143";
@@ -51,7 +52,7 @@ public class InsureRemote {
     @Autowired
     private CustWarrantyService custWarrantyService;
 
-    @Async
+    @Async("asyncExecutor")
     public void insure(CustWarranty warranty, CustWarrantyPerson warrantyPerson, Bank bank) {
 
         TcpClientNocar client = new TcpClientNocar();

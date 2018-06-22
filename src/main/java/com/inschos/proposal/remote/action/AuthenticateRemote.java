@@ -44,7 +44,7 @@ public class AuthenticateRemote {
 
 
 
-    public String sendAuth(Bank bank){
+    public TyAuthenticateBean.TyAuthenticateResponse sendAuth(Bank bank){
 
         String tradeCode = "1900026";
 
@@ -64,7 +64,7 @@ public class AuthenticateRemote {
             if(!StringKit.isEmpty(call)){
                 TyAuthenticateBean.TyAuthenticateResponse response = JsonKit.json2Bean(call, TyAuthenticateBean.TyAuthenticateResponse.class);
                 L.log.info(call);
-                return call;
+                return response;
             }
         }catch (Exception e){
 
@@ -72,7 +72,7 @@ public class AuthenticateRemote {
         return null;
     }
 
-    public String confirmAuth(String requestId,String vdCode){
+    public TyAuthenticateBean.TyAuthConfirmResponse confirmAuth(String requestId,String vdCode){
 
         String tradeCode = "1900027";
 
@@ -93,7 +93,7 @@ public class AuthenticateRemote {
             String call = client.call(getHost(), getPort(), getConfirmRequestXml(requestId,vdCode,tradeCode,tradeTime));
             if(!StringKit.isEmpty(call)){
                 TyAuthenticateBean.TyAuthConfirmResponse response = JsonKit.json2Bean(call, TyAuthenticateBean.TyAuthConfirmResponse.class);
-                return call;
+                return response;
             }
         }catch (Exception e){
 
