@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by IceAnt on 2018/6/21.
@@ -22,7 +23,7 @@ public class TestController {
 
     @RequestMapping("/send")
     @ResponseBody
-    public String testSend(HttpServletRequest request) {
+    public String testSend(HttpServletRequest request, HttpServletResponse httpServletResponse) {
 
         String card = request.getParameter("card");
 
@@ -50,6 +51,9 @@ public class TestController {
         }
 
         TyAuthenticateBean.TyAuthenticateResponse response = authenticateRemote.sendAuth(bank);
+
+        httpServletResponse.setHeader("Content-type", "text/html;charset=UTF-8");
+
         if (response != null && response.mainDto != null) {
 
             return "{\"message\":" + response.mainDto.resultMsg + ",\"requestId\":" + response.mainDto.requestId + "}";
@@ -63,11 +67,14 @@ public class TestController {
 
     @RequestMapping("/confirm")
     @ResponseBody
-    public String testConfirm(HttpServletRequest request) {
+    public String testConfirm(HttpServletRequest request,HttpServletResponse httpServletResponse) {
 
         String requestId = request.getParameter("requestId");
         String vdCode = request.getParameter("vdCode");
         TyAuthenticateBean.TyAuthConfirmResponse response = authenticateRemote.confirmAuth(requestId, vdCode);
+
+        httpServletResponse.setHeader("Content-type", "text/html;charset=UTF-8");
+
         if (response != null) {
             if (response.mainDto != null) {
                 return "{\"message\":" + response.mainDto.resultMsg + "}";
@@ -76,6 +83,7 @@ public class TestController {
                 return "{\"errorMessage\":" + response.headDto.errorMessage + ",\"esbMessage\":" + response.headDto.esbMessage + "}";
             }
         }
+
         return "{\"message\":\"绑卡失败\"}";
 
     }
