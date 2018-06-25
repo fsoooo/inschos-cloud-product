@@ -37,7 +37,8 @@ public class AuthenticateRemote {
         if(remotePro){
             port = 6518;
         }else{
-            port = 6518;
+//            port = 6518;
+            port = 6506;
         }
         return port;
     }
