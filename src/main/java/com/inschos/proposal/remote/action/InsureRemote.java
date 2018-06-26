@@ -249,7 +249,7 @@ public class InsureRemote {
 
         String birthByIdCard = ICCardKit.getBirthByIdCard(person.card_code);
         if(birthByIdCard!=null && birthByIdCard.length()>=8){
-            birth = birthByIdCard.substring(0,4)+"-"+birthByIdCard.substring(4,2)+"-"+birthByIdCard.substring(6,2);
+            birth = birthByIdCard.substring(0,4)+"-"+birthByIdCard.substring(4,6)+"-"+birthByIdCard.substring(6,8);
         }
         int age = ICCardKit.getAgeByIdCard(person.card_code);
 
