@@ -39,7 +39,9 @@ public class InsureRemote {
 
     private final String host_pro = "211.160.75.143";
 
-    private final int port = 6518;
+//    private final int port = 6518;
+
+    private final int port = 6506;
 
     private final int port_pro = 6518;
 

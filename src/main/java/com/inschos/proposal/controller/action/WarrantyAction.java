@@ -62,12 +62,12 @@ public class WarrantyAction extends BaseAction {
                 long endTime = TimeKit.add(TimeKit.getDayStartTime(currentTime), Calendar.DATE, request.insured_days) - 1;
                 warranty.end_time = endTime;
                 warranty.search_card_code = request.insured_code;
-//                CustWarranty custWarranty = custWarrantyService.findExists(warranty);
-//                if(custWarranty!=null){
-//                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
-//                    custWarranty.updated_at = currentTime;
-//                    custWarrantyService.changeWarrantyInfo(custWarranty);
-//                }
+                CustWarranty custWarranty = custWarrantyService.findExists(warranty);
+                if(custWarranty!=null){
+                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
+                    custWarranty.updated_at = currentTime;
+                    custWarrantyService.changeWarrantyInfo(custWarranty);
+                }
 
                 return _toInsure(request);
             }

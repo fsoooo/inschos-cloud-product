@@ -1,5 +1,6 @@
 package com.inschos.proposal.controller.request;
 
+import com.inschos.proposal.controller.action.WarrantyAction;
 import com.inschos.proposal.model.Bank;
 import com.inschos.proposal.remote.action.AuthenticateRemote;
 import com.inschos.proposal.remote.bean.TyAuthenticateBean;
@@ -20,6 +21,8 @@ public class TestController {
 
     @Autowired
     private AuthenticateRemote authenticateRemote;
+    @Autowired
+    private WarrantyAction warrantyAction;
 
     @RequestMapping("/send")
     @ResponseBody
@@ -85,6 +88,24 @@ public class TestController {
         }
 
         return "{\"message\":\"绑卡失败\"}";
+
+    }
+
+    @RequestMapping("/insure")
+    @ResponseBody
+    public String testInsure(HttpServletRequest request,HttpServletResponse httpServletResponse) {
+
+        String name = request.getParameter("name");
+        String idCard = request.getParameter("idCard");
+        String code = request.getParameter("code");
+        String phone = request.getParameter("phone");
+
+        String body="{\"channel_code\":\"YD\",\"insured_name\":"+name+",\"insured_code\":"+idCard+",\"insured_phone\":"+phone+",\"insured_email\":\"wangs@inschos.com\",\"insured_province\":\"北京市\",\"insured_city\":\"北京市\",\"insured_county\":\"东城区\",\"insured_address\":\"北京市东城区广渠门内广渠路夕照寺中街19号幸福大厦15单元17号楼东门对面的平房后面的小黑屋里\",\"bank_name\":\"工商银行\",\"bank_code\":"+code+",\"bank_phone\":"+phone+",\"bank_address\":\"北京市东城区广渠门内广渠路支行\",\"insured_days\":1,\"price\":2}";
+
+
+        warrantyAction.insureTest(body);
+
+        return "{\"message\":\"投保已提交\"}";
 
     }
 }
