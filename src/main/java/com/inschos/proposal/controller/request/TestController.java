@@ -100,7 +100,7 @@ public class TestController {
         String code = request.getParameter("code");
         String phone = request.getParameter("phone");
 
-        String body="{\"channel_code\":\"YD\",\"insured_name\":"+name+",\"insured_code\":"+idCard+",\"insured_phone\":"+phone+",\"insured_email\":\"wangs@inschos.com\",\"insured_province\":\"北京市\",\"insured_city\":\"北京市\",\"insured_county\":\"东城区\",\"insured_address\":\"北京市东城区广渠门内广渠路夕照寺中街19号幸福大厦15单元17号楼东门对面的平房后面的小黑屋里\",\"bank_name\":\"工商银行\",\"bank_code\":"+code+",\"bank_phone\":"+phone+",\"bank_address\":\"北京市东城区广渠门内广渠路支行\",\"insured_days\":1,\"price\":2}";
+        String body="{\"channel_code\":\"YD\",\"insured_name\":\""+name+"\",\"insured_code\":\""+idCard+"\",\"insured_phone\":\""+phone+"\",\"insured_email\":\"wangs@inschos.com\",\"insured_province\":\"北京市\",\"insured_city\":\"北京市\",\"insured_county\":\"东城区\",\"insured_address\":\"北京市东城区广渠门内广渠路夕照寺中街19号幸福大厦15单元17号楼东门对面的平房后面的小黑屋里\",\"bank_name\":\"工商银行\",\"bank_code\":\""+code+"\",\"bank_phone\":\""+phone+"\",\"bank_address\":\"北京市东城区广渠门内广渠路支行\",\"insured_days\":1,\"price\":2}";
 
 
         warrantyAction.insureTest(body);
