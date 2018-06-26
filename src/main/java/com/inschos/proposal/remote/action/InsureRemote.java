@@ -354,26 +354,26 @@ public class InsureRemote {
 //        request.mainDto.agreementNo = "U12002000001-01";
 //        request.mainDto.userCode = "12010001";
             //用户环境
-//        request.mainDto.makeCom = "12010000";
-//        request.mainDto.comCode = "12010000";
-//        request.mainDto.operatorCode = "12019998";
-//        request.mainDto.operatorName = "";
-//        request.mainDto.handlerCode = "12019998";
-//        request.mainDto.handler1Code = "12019998";
-//        request.mainDto.agentCode = "U12242000001";
-//        request.mainDto.agreementNo = "U12242000001-02";
-//        request.mainDto.userCode = "12010001";
+        request.mainDto.makeCom = "12010000";
+        request.mainDto.comCode = "12010000";
+        request.mainDto.operatorCode = "12019998";
+        request.mainDto.operatorName = "";
+        request.mainDto.handlerCode = "12019998";
+        request.mainDto.handler1Code = "12019998";
+        request.mainDto.agentCode = "U12242000001";
+        request.mainDto.agreementNo = "U12242000001-02";
+        request.mainDto.userCode = "12010001";
 
             //集成环境
-            request.mainDto.makeCom = "12010010";
-            request.mainDto.comCode = "12010010";
-            request.mainDto.operatorCode = "12345098";
-            request.mainDto.operatorName = "";
-            request.mainDto.handlerCode = "12345098";
-            request.mainDto.handler1Code = "12345098";
-            request.mainDto.agentCode = "U12011800001";
-            request.mainDto.agreementNo = "U12011800001-01";
-            request.mainDto.userCode = "12010001";
+//            request.mainDto.makeCom = "12010010";
+//            request.mainDto.comCode = "12010010";
+//            request.mainDto.operatorCode = "12345098";
+//            request.mainDto.operatorName = "";
+//            request.mainDto.handlerCode = "12345098";
+//            request.mainDto.handler1Code = "12345098";
+//            request.mainDto.agentCode = "U12011800001";
+//            request.mainDto.agreementNo = "U12011800001-01";
+//            request.mainDto.userCode = "12010001";
 
 
             request.mainDto.shareholderFlag = "0";
