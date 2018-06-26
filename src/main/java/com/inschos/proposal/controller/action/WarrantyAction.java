@@ -93,6 +93,10 @@ public class WarrantyAction extends BaseAction {
                         person.del = 0;
                         person.status = 1;
                         person.created_at = person.updated_at = TimeKit.currentTimeMillis();
+                        person.address_detail = request.insured_address;
+                        person.sex = 1;
+
+
                         personService.join(person);
 
                     }

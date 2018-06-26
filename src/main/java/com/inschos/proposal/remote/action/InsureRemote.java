@@ -239,12 +239,22 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.insuredAppliDto.identifyType = tranCardType(person.card_type);
         tyInsProposalRequest.mainDto.insuredAppliDto.identifyNumber = person.card_code;
         tyInsProposalRequest.mainDto.insuredAppliDto.linkMobile = person.phone;
-        tyInsProposalRequest.mainDto.insuredAppliDto.sex = String.valueOf(person.sex);
-        tyInsProposalRequest.mainDto.insuredAppliDto.birth = person.birthday;
+        tyInsProposalRequest.mainDto.insuredAppliDto.sex =  transSex(person.sex);
+
         tyInsProposalRequest.mainDto.insuredAppliDto.email = person.email;
         tyInsProposalRequest.mainDto.insuredAppliDto.appliAddress = _toUrlEncode(person.address);
 
-        tyInsProposalRequest.mainDto.insuredAppliDto.age = String.valueOf(person.age);
+
+        String birth = null;
+
+        String birthByIdCard = ICCardKit.getBirthByIdCard(person.card_code);
+        if(birthByIdCard!=null && birthByIdCard.length()>=8){
+            birth = birthByIdCard.substring(0,4)+"-"+birthByIdCard.substring(4,2)+"-"+birthByIdCard.substring(6,2);
+        }
+        int age = ICCardKit.getAgeByIdCard(person.card_code);
+
+        tyInsProposalRequest.mainDto.insuredAppliDto.birth = birth;
+        tyInsProposalRequest.mainDto.insuredAppliDto.age = String.valueOf(age);
 
 
         TYInsProposalBean.InsuredDto insuredDto = new TYInsProposalBean.InsuredDto();
@@ -253,11 +263,11 @@ public class InsureRemote {
         insuredDto.identifyType = tranCardType(person.card_type);
         insuredDto.identifyNumber = person.card_code;
         insuredDto.linkMobile = person.phone;
-        insuredDto.sex = String.valueOf(person.sex);
-        insuredDto.birth = person.birthday;
+        insuredDto.sex = transSex(person.sex);
+        insuredDto.birth = birth;
         insuredDto.email = person.email;
         insuredDto.insuredAddress = _toUrlEncode(person.address);
-        insuredDto.age = String.valueOf(person.age);
+        insuredDto.age = String.valueOf(age);
         insuredDto.relationSerialType = "01";
         insuredDto.occupationCode = "";
         insuredDto.physicalExamination = "0";
@@ -441,5 +451,21 @@ public class InsureRemote {
         }else{
             return EncryptUtil.encode(input, EncryptUtil.getDKey());
         }
+    }
+
+
+    private String transSex(int sex){
+        String pSex;
+        switch (sex){
+            case 1:
+                pSex = "1";
+                break;
+            case 2:
+                pSex = "2";
+                break;
+            default:
+                pSex = "9";
+        }
+        return pSex;
     }
 }
