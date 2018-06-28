@@ -44,6 +44,11 @@ public class TradingAction extends BaseAction {
                         code.append(",").append(policyData.policyNo);
                     }
                 }
+                if(!StringKit.isEmpty(policyData.proposalNo)){
+                    if(firstCode==null){
+                        firstCode = policyData.proposalNo;
+                    }
+                }
             }
 
 

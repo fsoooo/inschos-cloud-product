@@ -107,7 +107,10 @@ public class TcpClientNocar {
 				lengthHead = StringUtils.leftPad(lengthHead, lengthHeadSize, lengthHeadPadChar);
 			}
 //
-			logger.debug("---------报文头部分：------\n" + "开始" + (headBeforeLength + lengthHead + headAfterLength) + "结束");
+			if (logger.isInfoEnabled()){
+				logger.info("------：------\n" + host+" "+port);
+				logger.info("---------报文头部分：------\n" + "开始" + (headBeforeLength + lengthHead + headAfterLength) + "结束");
+			}
 			logger.debug("---------报文体部分：------\n" + requestBody);
 
 
