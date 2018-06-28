@@ -27,9 +27,10 @@ public class TradingAction extends BaseAction {
         if (verifySign(request)) {
             L.log.info("pay call back success");
 
-            CustWarranty custWarranty = custWarrantyService.findByProPolicyNo(request.cardPolicyNo);
+            CustWarranty searchComb = new CustWarranty();
+            searchComb.comb_warranty_code = request.cardPolicyNo;
+            CustWarranty custWarranty = custWarrantyService.findByCombWarrantyCode(searchComb);
             if(custWarranty!=null){
-                custWarranty.comb_warranty_code = request.cardPolicyNo;
                 String status = "";
 
                 StringBuilder code = null;
