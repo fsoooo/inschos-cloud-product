@@ -377,24 +377,14 @@ public class InsureRemote {
 
             //集成环境
 
-            request.mainDto.makeCom = "12010010";
-            request.mainDto.comCode = "12010010";
-            request.mainDto.operatorCode = "12345098";
-            request.mainDto.operatorName = "";
-            request.mainDto.handlerCode = "12345098";
-            request.mainDto.handler1Code = "12345098";
-            request.mainDto.agentCode = "O12011800001";
-            request.mainDto.agreementNo = "O12011800001-01";
-            request.mainDto.userCode = "12010001";
-
 //            request.mainDto.makeCom = "12010010";
 //            request.mainDto.comCode = "12010010";
 //            request.mainDto.operatorCode = "12345098";
 //            request.mainDto.operatorName = "";
 //            request.mainDto.handlerCode = "12345098";
 //            request.mainDto.handler1Code = "12345098";
-//            request.mainDto.agentCode = "U12011800001";
-//            request.mainDto.agreementNo = "U12011800001-01";
+//            request.mainDto.agentCode = "O12011800001";
+//            request.mainDto.agreementNo = "O12011800001-01";
 //            request.mainDto.userCode = "12010001";
 
 
