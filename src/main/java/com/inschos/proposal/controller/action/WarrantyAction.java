@@ -56,18 +56,52 @@ public class WarrantyAction extends BaseAction {
         if(!remotePro){
             WarrantyBean.InsureRequest request = JsonKit.json2Bean(body, WarrantyBean.InsureRequest.class);
             if (verifySign(request)) {
+
+
+
+
+
+
                 CustWarranty warranty = new CustWarranty();
                 long currentTime = TimeKit.currentTimeMillis();
                 warranty.start_time = currentTime;
                 long endTime = TimeKit.add(TimeKit.getDayStartTime(currentTime), Calendar.DATE, request.insured_days) - 1;
                 warranty.end_time = endTime;
                 warranty.search_card_code = request.insured_code;
-//                CustWarranty custWarranty = custWarrantyService.findExists(warranty);
-//                if(custWarranty!=null){
-//                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
-//                    custWarranty.updated_at = currentTime;
-//                    custWarrantyService.changeWarrantyInfo(custWarranty);
-//                }
+                CustWarranty custWarranty = custWarrantyService.findExists(warranty);
+                if(custWarranty!=null){
+                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_YISHIXIAO;
+                    custWarranty.updated_at = currentTime;
+                    custWarrantyService.changeWarrantyInfo(custWarranty);
+                }else{
+
+                    Person search = new Person();
+
+                    search.papers_code = request.insured_code;
+                    search.papers_type = Person.PAPERS_TYPE_ICCARD;
+
+
+                    Person person = personService.findByPapersCode(search);
+                    if(person==null){
+
+                        person = new Person();
+
+                        person.papers_code = request.insured_code;
+                        person.papers_type = Person.PAPERS_TYPE_ICCARD;
+                        person.phone = request.insured_phone;
+                        person.name = request.insured_name;
+                        person.del = 0;
+                        person.status = 1;
+                        person.created_at = person.updated_at = TimeKit.currentTimeMillis();
+                        person.address_detail = request.insured_address;
+                        person.sex = 1;
+
+
+                        personService.join(person);
+
+                    }
+
+                }
 
                 return _toInsure(request);
             }

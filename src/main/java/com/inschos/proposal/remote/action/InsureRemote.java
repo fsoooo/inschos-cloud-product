@@ -34,11 +34,14 @@ public class InsureRemote {
 
     // 10.128.20.64
 
+
     private final String host = "211.160.75.141";
 
     private final String host_pro = "211.160.75.143";
 
-    private final int port = 6518;
+//    private final int port = 6518;
+
+    private final int port = 6506;
 
     private final int port_pro = 6518;
 
@@ -51,7 +54,7 @@ public class InsureRemote {
     @Autowired
     private CustWarrantyService custWarrantyService;
 
-    @Async
+    @Async("asyncExecutor")
     public void insure(CustWarranty warranty, CustWarrantyPerson warrantyPerson, Bank bank) {
 
         TcpClientNocar client = new TcpClientNocar();
@@ -97,11 +100,11 @@ public class InsureRemote {
                                     warranty.pay_status = CustWarranty.PAY_STATUS_WAITING;
                                     warranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
                                     warranty.updated_at = TimeKit.currentTimeMillis();
-                                    warranty.resp_insure_msg = response.mainDto.message+(StringKit.isEmpty(response.mainDto.errMsg)?"":("["+response.mainDto.errMsg+"]"));
+                                    warranty.resp_insure_msg = response.mainDto.message + (StringKit.isEmpty(response.mainDto.errMsg) ? "" : ("[" + response.mainDto.errMsg + "]"));
                                     custWarrantyService.updateProInfo(warranty);
                                 }
 
-                            }else{
+                            } else {
                                 List<TYInsProposalBean.ProToPoDto> poDtoList = response.mainDto.proToPoDtoList;
                                 List<String> proPolicyNos = new ArrayList<>();
                                 if (poDtoList != null) {
@@ -110,15 +113,15 @@ public class InsureRemote {
                                     }
                                 }
                                 warranty.pro_policy_no = StringKit.join(proPolicyNos, ",");
-                                errMsg = StringKit.isEmpty(response.mainDto.errMsg)?response.mainDto.message:response.mainDto.errMsg;
+                                errMsg = StringKit.isEmpty(response.mainDto.errMsg) ? response.mainDto.message : response.mainDto.errMsg;
                             }
-                        }else {
-                            errMsg = !StringKit.isEmpty(response.headDto.errorCode)?(response.headDto.errorCode+"|"+response.headDto.errorMessage):(!StringKit.isEmpty(response.headDto.esbCode)?(response.headDto.esbCode+"|"+response.headDto.esbMessage):null);
+                        } else {
+                            errMsg = !StringKit.isEmpty(response.headDto.errorCode) ? (response.headDto.errorCode + "|" + response.headDto.errorMessage) : (!StringKit.isEmpty(response.headDto.esbCode) ? (response.headDto.esbCode + "|" + response.headDto.esbMessage) : null);
                         }
 
 
                     } else {
-                        errMsg = !StringKit.isEmpty(response.headDto.errorCode)?(response.headDto.errorCode+"|"+response.headDto.errorMessage):(!StringKit.isEmpty(response.headDto.esbCode)?(response.headDto.esbCode+"|"+response.headDto.esbMessage):null);
+                        errMsg = !StringKit.isEmpty(response.headDto.errorCode) ? (response.headDto.errorCode + "|" + response.headDto.errorMessage) : (!StringKit.isEmpty(response.headDto.esbCode) ? (response.headDto.esbCode + "|" + response.headDto.esbMessage) : null);
                         logger.error("insure response  failed msg:{}", call);
                     }
                 } else {
@@ -137,7 +140,7 @@ public class InsureRemote {
         }
     }
 
-    public String query(){
+    public String query() {
         TcpClientNocar client = new TcpClientNocar();
         String charsetName = Charset.defaultCharset().displayName();
         logger.debug("system charset displayName {}", charsetName);
@@ -161,7 +164,7 @@ public class InsureRemote {
         return call;
     }
 
-    private String getQueryRequestXml(){
+    private String getQueryRequestXml() {
         NoCarPrPoEnQueryBean.NoCarPrPoEnQueryRequest request = new NoCarPrPoEnQueryBean.NoCarPrPoEnQueryRequest();
         request.headDto = new NoCarPrPoEnQueryBean.RequestHeadDto();
 
@@ -175,7 +178,8 @@ public class InsureRemote {
         request.headDto.versionNo = "";
         request.headDto.areaCode = "";
         request.headDto.areaName = "";
-        request.headDto.tradeTime = TimeKit.format("yyyyMMddHHmmss",TimeKit.currentTimeMillis());;
+        request.headDto.tradeTime = TimeKit.format("yyyyMMddHHmmss", TimeKit.currentTimeMillis());
+        ;
         request.headDto.responseType = "01";
         request.headDto.signData = "";
 
@@ -185,11 +189,11 @@ public class InsureRemote {
         //T120115282018000533,T120127702018000514
         request.mainDto.cardProductFlag = "TY";
         request.mainDto.channelDto = new NoCarPrPoEnQueryBean.ChannelDto();
-        request.mainDto.channelDto.channelCode="190000";
+        request.mainDto.channelDto.channelCode = "190000";
         request.mainDto.channelDto.channelTradeCode = "1900020";
 
-        request.mainDto.channelDto.channelTradeSerialNo = TimeKit.format("yyyyMMddHHmmss",TimeKit.currentTimeMillis());
-        request.mainDto.channelDto.channelTradeDate =TimeKit.format("yyyyMMdd",TimeKit.currentTimeMillis());
+        request.mainDto.channelDto.channelTradeSerialNo = TimeKit.format("yyyyMMddHHmmss", TimeKit.currentTimeMillis());
+        request.mainDto.channelDto.channelTradeDate = TimeKit.format("yyyyMMdd", TimeKit.currentTimeMillis());
 
 
         String displayName = Charset.defaultCharset().displayName();
@@ -236,12 +240,22 @@ public class InsureRemote {
         tyInsProposalRequest.mainDto.insuredAppliDto.identifyType = tranCardType(person.card_type);
         tyInsProposalRequest.mainDto.insuredAppliDto.identifyNumber = person.card_code;
         tyInsProposalRequest.mainDto.insuredAppliDto.linkMobile = person.phone;
-        tyInsProposalRequest.mainDto.insuredAppliDto.sex = String.valueOf(person.sex);
-        tyInsProposalRequest.mainDto.insuredAppliDto.birth = person.birthday;
+        tyInsProposalRequest.mainDto.insuredAppliDto.sex = transSex(person.sex);
+
         tyInsProposalRequest.mainDto.insuredAppliDto.email = person.email;
         tyInsProposalRequest.mainDto.insuredAppliDto.appliAddress = _toUrlEncode(person.address);
 
-        tyInsProposalRequest.mainDto.insuredAppliDto.age = String.valueOf(person.age);
+
+        String birth = null;
+
+        String birthByIdCard = ICCardKit.getBirthByIdCard(person.card_code);
+        if (birthByIdCard != null && birthByIdCard.length() >= 8) {
+            birth = birthByIdCard.substring(0, 4) + "-" + birthByIdCard.substring(4, 6) + "-" + birthByIdCard.substring(6, 8);
+        }
+        int age = ICCardKit.getAgeByIdCard(person.card_code);
+
+        tyInsProposalRequest.mainDto.insuredAppliDto.birth = birth;
+        tyInsProposalRequest.mainDto.insuredAppliDto.age = String.valueOf(age);
 
 
         TYInsProposalBean.InsuredDto insuredDto = new TYInsProposalBean.InsuredDto();
@@ -250,11 +264,11 @@ public class InsureRemote {
         insuredDto.identifyType = tranCardType(person.card_type);
         insuredDto.identifyNumber = person.card_code;
         insuredDto.linkMobile = person.phone;
-        insuredDto.sex = String.valueOf(person.sex);
-        insuredDto.birth = person.birthday;
+        insuredDto.sex = transSex(person.sex);
+        insuredDto.birth = birth;
         insuredDto.email = person.email;
         insuredDto.insuredAddress = _toUrlEncode(person.address);
-        insuredDto.age = String.valueOf(person.age);
+        insuredDto.age = String.valueOf(age);
         insuredDto.relationSerialType = "01";
         insuredDto.occupationCode = "";
         insuredDto.physicalExamination = "0";
@@ -341,15 +355,15 @@ public class InsureRemote {
         } else {
 
             //模拟环境
-            //        request.mainDto.makeCom = "12010000";
-//        request.mainDto.comCode = "12010000";
-//        request.mainDto.operatorCode = "12069004";
-//        request.mainDto.operatorName = "";
-//        request.mainDto.handlerCode = "12069004";
-//        request.mainDto.handler1Code = "12069004";
-//        request.mainDto.agentCode = "U12002000001";
-//        request.mainDto.agreementNo = "U12002000001-01";
-//        request.mainDto.userCode = "12010001";
+            request.mainDto.makeCom = "12010000";
+            request.mainDto.comCode = "12010000";
+            request.mainDto.operatorCode = "12069004";
+            request.mainDto.operatorName = "";
+            request.mainDto.handlerCode = "12069004";
+            request.mainDto.handler1Code = "12069004";
+            request.mainDto.agentCode = "U12002000001";
+            request.mainDto.agreementNo = "U12002000001-01";
+            request.mainDto.userCode = "12010001";
             //用户环境
 //        request.mainDto.makeCom = "12010000";
 //        request.mainDto.comCode = "12010000";
@@ -362,6 +376,7 @@ public class InsureRemote {
 //        request.mainDto.userCode = "12010001";
 
             //集成环境
+
             request.mainDto.makeCom = "12010010";
             request.mainDto.comCode = "12010010";
             request.mainDto.operatorCode = "12345098";
@@ -372,13 +387,22 @@ public class InsureRemote {
             request.mainDto.agreementNo = "O12011800001-01";
             request.mainDto.userCode = "12010001";
 
+//            request.mainDto.makeCom = "12010010";
+//            request.mainDto.comCode = "12010010";
+//            request.mainDto.operatorCode = "12345098";
+//            request.mainDto.operatorName = "";
+//            request.mainDto.handlerCode = "12345098";
+//            request.mainDto.handler1Code = "12345098";
+//            request.mainDto.agentCode = "U12011800001";
+//            request.mainDto.agreementNo = "U12011800001-01";
+//            request.mainDto.userCode = "12010001";
+
 
             request.mainDto.shareholderFlag = "0";
             request.mainDto.businessNature = "4";
             request.mainDto.shareholderName = "A27";
             request.mainDto.shareholderKindCode = "B90";
         }
-
 
 
         request.mainDto.idCard = "";
@@ -431,12 +455,28 @@ public class InsureRemote {
         }
     }
 
-    private String toEncrypt(String input){
+    private String toEncrypt(String input) {
 
-        if(input==null){
+        if (input == null) {
             return "";
-        }else{
+        } else {
             return EncryptUtil.encode(input, EncryptUtil.getDKey());
         }
+    }
+
+
+    private String transSex(int sex) {
+        String pSex;
+        switch (sex) {
+            case 1:
+                pSex = "1";
+                break;
+            case 2:
+                pSex = "2";
+                break;
+            default:
+                pSex = "9";
+        }
+        return pSex;
     }
 }

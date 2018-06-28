@@ -38,4 +38,10 @@ public class Bank {
     public long updated_at;
 
 
+    // query
+
+    public String userName;
+
+    public String userIdCard;
+
 }
