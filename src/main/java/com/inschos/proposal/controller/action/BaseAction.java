@@ -2,6 +2,7 @@ package com.inschos.proposal.controller.action;
 
 import com.inschos.proposal.controller.bean.BaseResponse;
 import com.inschos.proposal.kit.JsonKit;
+import com.inschos.proposal.kit.L;
 
 /**
  * Created by IceAnt on 2018/3/27.
@@ -12,7 +13,11 @@ public class BaseAction {
         BaseResponse response = new BaseResponse();
         response.code = code;
         response.message = message;
-        return JsonKit.bean2Json(response);
+        String body = JsonKit.bean2Json(response);
+        if(L.log.isInfoEnabled()){
+            L.log.info(body);
+        }
+        return body;
     }
 
 
@@ -22,7 +27,11 @@ public class BaseAction {
         }
         response.code = code;
         response.message = message;
-        return JsonKit.bean2Json(response);
+        String body = JsonKit.bean2Json(response);
+        if(L.log.isInfoEnabled()){
+            L.log.info(body);
+        }
+        return body;
     }
 
 

@@ -26,9 +26,10 @@ public class HttpKit {
             }
             String body = result.toString();
 
-            if(log.isDebugEnabled()){
-                log.debug(body);
+            if(log.isInfoEnabled()){
+                log.info(body);
             }
+
 
             return body;
         } catch (IOException e) {

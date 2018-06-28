@@ -62,9 +62,9 @@ public class AuthenticateRemote {
         try {
             long tradeTime = TimeKit.currentTimeMillis();
             String call = client.call(getHost(), getPort(), getSendRequestXml(bank,tradeCode,tradeTime));
+            L.log.info(call);
             if(!StringKit.isEmpty(call)){
                 TyAuthenticateBean.TyAuthenticateResponse response = XmlKit.xml2Bean(call, TyAuthenticateBean.TyAuthenticateResponse.class);
-                L.log.info(call);
                 return response;
             }
         }catch (Exception e){
@@ -92,6 +92,7 @@ public class AuthenticateRemote {
         try {
             long tradeTime = TimeKit.currentTimeMillis();
             String call = client.call(getHost(), getPort(), getConfirmRequestXml(requestId,vdCode,tradeCode,tradeTime));
+            L.log.info(call);
             if(!StringKit.isEmpty(call)){
                 TyAuthenticateBean.TyAuthConfirmResponse response = XmlKit.xml2Bean(call, TyAuthenticateBean.TyAuthConfirmResponse.class);
                 return response;

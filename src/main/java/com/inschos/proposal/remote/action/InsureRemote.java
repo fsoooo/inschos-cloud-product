@@ -71,8 +71,12 @@ public class InsureRemote {
         String errMsg = null;
         try {
 
-
+            L.log.info("warranty_uuid {}",warranty.warranty_uuid);
             String call = client.call(getHost(), getPort(), getRequestXml(warranty, warrantyPerson, bank));
+            if(L.log.isInfoEnabled()){
+                L.log.info("response {}",call);
+            }
+
             if (!StringKit.isEmpty(call)) {
                 TYInsProposalBean.TYInsProposalResponse response = XmlKit.xml2Bean(call, TYInsProposalBean.TYInsProposalResponse.class);
                 if (response != null && response.headDto != null) {
