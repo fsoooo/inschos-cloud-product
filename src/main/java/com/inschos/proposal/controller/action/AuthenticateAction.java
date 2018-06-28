@@ -65,7 +65,7 @@ public class AuthenticateAction extends BaseAction {
                         return json(BaseResponse.CODE_SUCCESS, "短信已发送", response);
                     } else {
                         if (!StringKit.isEmpty(remoteResponse.mainDto.resultMsg)) {
-                            String[] split = StringKit.split(remoteResponse.mainDto.resultMsg, "|");
+                            String[] split = StringKit.split(remoteResponse.mainDto.resultMsg, "\\|");
                             if (split != null) {
                                 errMsg = split.length > 1 ? split[1] : split[0];
                                 isErr = true;
