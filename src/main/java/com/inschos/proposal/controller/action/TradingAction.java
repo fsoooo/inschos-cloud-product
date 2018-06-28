@@ -27,25 +27,37 @@ public class TradingAction extends BaseAction {
         if (verifySign(request)) {
             L.log.info("pay call back success");
 
-            CustWarranty searchComb = new CustWarranty();
-            searchComb.comb_warranty_code = request.cardPolicyNo;
-            CustWarranty custWarranty = custWarrantyService.findByCombWarrantyCode(searchComb);
-            if(custWarranty!=null){
-                String status = "";
+            String status = "";
 
-                StringBuilder code = null;
-                for (TradingCallBackBean.PolicyData policyData : request.policyList) {
-                    if(!"4".equals(status)){
-                        status = policyData.status;
-                    }
-                    if(!StringKit.isEmpty(policyData.policyNo)){
-                        if(code==null){
-                            code = new StringBuilder(policyData.policyNo);
-                        }else{
-                            code.append(",").append(policyData.policyNo);
-                        }
+            StringBuilder code = null;
+            String firstCode = null;
+
+            for (TradingCallBackBean.PolicyData policyData : request.policyList) {
+                if(!"4".equals(status)){
+                    status = policyData.status;
+                }
+                if(!StringKit.isEmpty(policyData.policyNo)){
+                    if(code==null){
+                        code = new StringBuilder(policyData.policyNo);
+                        firstCode = policyData.policyNo;
+                    }else{
+                        code.append(",").append(policyData.policyNo);
                     }
                 }
+            }
+
+
+            CustWarranty custWarranty = null;
+
+            if(!StringKit.isEmpty(request.cardPolicyNo)){
+                CustWarranty searchComb = new CustWarranty();
+                searchComb.comb_warranty_code = request.cardPolicyNo;
+                custWarranty = custWarrantyService.findByCombWarrantyCode(searchComb);
+            }else{
+                custWarranty = custWarrantyService.findByProPolicyNo(firstCode);
+            }
+            if(custWarranty!=null){
+
                 if(code!=null){
                     custWarranty.warranty_code = code.toString();
                 }
@@ -98,7 +110,7 @@ public class TradingAction extends BaseAction {
 
     private boolean verifySign(TradingCallBackBean.PayCallBackRequest request) {
         boolean isSuccess = false;
-        if (request != null && request.head != null && !StringKit.isEmpty(request.cardPolicyNo) && request.policyList!=null &&!request.policyList.isEmpty()) {
+        if (request != null && request.head != null && request.policyList!=null &&!request.policyList.isEmpty()) {
             for (TradingCallBackBean.PolicyData policyData : request.policyList) {
                 isSuccess = policyData.signDate.equals(Md5Util.getMD5String(request.head.requestType+policyData.proposalNo+policyData.status+request.head.requestType));
                 if(!isSuccess){
