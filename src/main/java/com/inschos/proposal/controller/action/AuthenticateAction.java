@@ -120,7 +120,7 @@ public class AuthenticateAction extends BaseAction {
 
                     } else {
                         if (!StringKit.isEmpty(remoteResponse.mainDto.resultMsg)) {
-                            String[] split = StringKit.split(remoteResponse.mainDto.resultMsg, "|");
+                            String[] split = StringKit.split(remoteResponse.mainDto.resultMsg, "\\|");
                             if (split != null) {
                                 errMsg = split.length > 1 ? split[1] : split[0];
                                 isErr = true;
