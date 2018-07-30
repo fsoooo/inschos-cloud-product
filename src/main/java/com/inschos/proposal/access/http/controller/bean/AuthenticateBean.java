@@ -1,4 +1,4 @@
-package com.inschos.proposal.controller.bean;
+package com.inschos.proposal.access.http.controller.bean;
 
 /**
  * author   meiming_mm@163.com

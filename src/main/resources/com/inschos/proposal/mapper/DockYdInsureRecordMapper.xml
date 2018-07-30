@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inschos.proposal.mapper.DockYdInsureRecordMapper">
+
+    <sql id="Base_Column_List">
+        `id`,`warranty_uuid`,`requst_json`
+    </sql>
+
+    <insert id="insert" parameterType="DockYdInsureRecord">
+        insert into dock_yd_insure_record(`id`,`warranty_uuid`,`requst_json`)
+        values(
+          #{id},#{warranty_uuid},#{requst_json}
+        )
+    </insert>
+
+    <update id="update" parameterType="DockYdInsureRecord">
+        update dock_yd_insure_record set
+          `warranty_uuid`=#{warranty_uuid},`requst_json`=#{requst_json}
+        where `id`=#{id}
+    </update>
+
+    <select id="selectOneByWUuid" parameterType="long" resultType="DockYdInsureRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from dock_yd_insure_record
+        where `warranty_uuid`=#{warranty_uuid}
+    </select>
+
+</mapper>

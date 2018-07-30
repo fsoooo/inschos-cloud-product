@@ -1,6 +1,6 @@
-package com.inschos.proposal.controller.request;
+package com.inschos.proposal.access.http.controller.request;
 
-import com.inschos.proposal.controller.action.WarrantyAction;
+import com.inschos.proposal.access.http.controller.action.WarrantyAction;
 import com.inschos.proposal.model.Bank;
 import com.inschos.proposal.remote.action.AuthenticateRemote;
 import com.inschos.proposal.remote.bean.TyAuthenticateBean;

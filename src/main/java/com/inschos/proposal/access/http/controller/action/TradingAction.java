@@ -1,9 +1,11 @@
-package com.inschos.proposal.controller.action;
+package com.inschos.proposal.access.http.controller.action;
 
-import com.inschos.proposal.controller.bean.BaseResponse;
-import com.inschos.proposal.controller.bean.TradingCallBackBean;
+import com.inschos.dock.bean.RpcResponse;
+import com.inschos.dock.bean.RspPayBean;
+import com.inschos.proposal.access.http.controller.bean.BaseResponse;
+import com.inschos.proposal.access.http.controller.bean.TradingCallBackBean;
+import com.inschos.proposal.access.rpc.client.CallBackServiceClient;
 import com.inschos.proposal.kit.*;
-import com.inschos.proposal.model.CustWarranty;
 import com.inschos.proposal.service.CustWarrantyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TradingAction extends BaseAction {
+
+    @Autowired
+    private CallBackServiceClient callBackServiceClient;
 
     @Autowired
     private CustWarrantyService custWarrantyService;
@@ -30,52 +35,51 @@ public class TradingAction extends BaseAction {
             String status = "";
 
             StringBuilder code = null;
-            String firstCode = null;
+            StringBuilder proposalNo = null;
 
             for (TradingCallBackBean.PolicyData policyData : request.policyList) {
-                if(!"4".equals(status)){
+                if (!"4".equals(status)) {
                     status = policyData.status;
                 }
-                if(!StringKit.isEmpty(policyData.policyNo)){
-                    if(code==null){
+                if (!StringKit.isEmpty(policyData.policyNo)) {
+                    if (code == null) {
                         code = new StringBuilder(policyData.policyNo);
-                        firstCode = policyData.policyNo;
-                    }else{
+                    } else {
                         code.append(",").append(policyData.policyNo);
                     }
                 }
-                if(!StringKit.isEmpty(policyData.proposalNo)){
-                    if(firstCode==null){
-                        firstCode = policyData.proposalNo;
+                if (!StringKit.isEmpty(policyData.proposalNo)) {
+                    if (proposalNo == null) {
+                        proposalNo = new StringBuilder(policyData.proposalNo);
+                    }else {
+                        proposalNo.append(",").append(policyData.proposalNo);
                     }
                 }
             }
+            RpcResponse<RspPayBean> response = new RpcResponse<>();
+            if ("4".equals(status)) {
+                response.code = RpcResponse.CODE_SUCCESS;
 
-
-            CustWarranty custWarranty = null;
-
-            if(!StringKit.isEmpty(request.cardPolicyNo)){
-                CustWarranty searchComb = new CustWarranty();
-                searchComb.comb_warranty_code = request.cardPolicyNo;
-                custWarranty = custWarrantyService.findByCombWarrantyCode(searchComb);
-            }else{
-                custWarranty = custWarrantyService.findByProPolicyNo(firstCode);
+            } else {
+                response.code = RpcResponse.CODE_FAILED;
             }
-            if(custWarranty!=null){
+            response.data = new RspPayBean();
 
-                if(code!=null){
-                    custWarranty.warranty_code = code.toString();
-                }
-                if("4".equals(status)){
-                    custWarranty.pay_status = CustWarranty.PAY_STATUS_SUCCESS;
-                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_BAOZHANGZHONG;
-                }else{
-                    custWarranty.pay_status = CustWarranty.PAY_STATUS_FAILED;
-                    custWarranty.warranty_status = CustWarranty.WARRANTY_STATUS_DAIZHIFU;
-                }
-                custWarranty.resp_pay_msg = toMsg(StringKit.isEmpty(status)?request.head.transType:status);
-                custWarrantyService.changeWarrantyInfo(custWarranty);
+            if(proposalNo!=null){
+                response.data.proposalNo = proposalNo.toString();
             }
+
+            if (code != null) {
+                response.data.policyNo = code.toString();
+
+            }
+
+            response.data.isCombProduct = true;
+            response.data.combCardCode = request.cardPolicyNo;
+
+            response.message = toMsg(StringKit.isEmpty(status) ? request.head.transType : status);
+
+            callBackServiceClient.outPolicy(response);
 
             return json(BaseResponse.CODE_SUCCESS, "回调成功");
         } else {
@@ -86,11 +90,11 @@ public class TradingAction extends BaseAction {
 
     }
 
-    private String toMsg(String status){
+    private String toMsg(String status) {
 
         String msg = "";
-        if(StringKit.isInteger(status)){
-            switch (status){
+        if (StringKit.isInteger(status)) {
+            switch (status) {
                 case "01":
                     msg = "生成保单失败";
                     break;
@@ -115,10 +119,10 @@ public class TradingAction extends BaseAction {
 
     private boolean verifySign(TradingCallBackBean.PayCallBackRequest request) {
         boolean isSuccess = false;
-        if (request != null && request.head != null && request.policyList!=null &&!request.policyList.isEmpty()) {
+        if (request != null && request.head != null && request.policyList != null && !request.policyList.isEmpty()) {
             for (TradingCallBackBean.PolicyData policyData : request.policyList) {
-                isSuccess = policyData.signDate.equals(Md5Util.getMD5String(request.head.requestType+policyData.proposalNo+policyData.status+request.head.requestType));
-                if(!isSuccess){
+                isSuccess = policyData.signDate.equals(Md5Util.getMD5String(request.head.requestType + policyData.proposalNo + policyData.status + request.head.requestType));
+                if (!isSuccess) {
                     break;
                 }
             }

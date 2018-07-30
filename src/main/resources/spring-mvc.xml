@@ -16,16 +16,11 @@
 
 	<aop:aspectj-autoproxy />
 
-	<!-- 自动扫描(自动注入) -->
-	<context:component-scan base-package="com.inschos.proposal.controller.request"
-		use-default-filters="false">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-	</context:component-scan>
 
-	<!--异常处理 -->
-	<bean id="exceptionResolver" class="com.inschos.proposal.exception.ExceptionHandler" />
+	<!-- 引入属性文件 -->
+	<context:property-placeholder location="classpath:config.properties" />
 
+	<aop:aspectj-autoproxy />
 	<mvc:annotation-driven>
 		<mvc:message-converters register-defaults="true">
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
@@ -39,5 +34,18 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+
+
+	<!-- 自动扫描(自动注入) -->
+	<context:component-scan base-package="com.inschos.proposal.access.http.controller"
+							use-default-filters="false">
+		<context:include-filter type="annotation"
+								expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!--异常处理 -->
+	<bean id="exceptionResolver" class="com.inschos.proposal.exception.ExceptionHandler" />
+
+	<import resource="spring-hprose.xml" />
 
 </beans>

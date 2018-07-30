@@ -144,6 +144,10 @@ public class InsureRemote {
         }
     }
 
+    public void insure(){
+
+    }
+
     public String query() {
         TcpClientNocar client = new TcpClientNocar();
         String charsetName = Charset.defaultCharset().displayName();

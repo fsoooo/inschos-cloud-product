@@ -4,140 +4,83 @@
     <groupId>com-inschos</groupId>
     <artifactId>ins-proposal</artifactId>
     <packaging>war</packaging>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <name>ins-proposal Maven Webapp</name>
     <url>http://maven.apache.org</url>
+
+
+
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <encoding>UTF-8</encoding>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <inschos.version>0.0.2-SNAPSHOT</inschos.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>3.0-alpha-1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>4.3.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>4.3.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>4.3.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>4.3.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>4.3.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>4.3.1.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>4.3.9.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>4.3.9.RELEASE</version>
-        </dependency>
-
-        <!-- mybatis -->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>1.3.0</version>
-        </dependency>
-        <!-- db -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.0.23</version>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.39</version>
-        </dependency>
-        <!-- json -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.0.pr3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.9.0.pr3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.9.0.pr3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.9.0.pr3</version>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.8.0-alpha2</version>
+            <groupId>com.inschos</groupId>
+            <artifactId>common</artifactId>
+            <version>${inschos.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.inschos</groupId>
+            <artifactId>web</artifactId>
+            <version>${inschos.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.7</version>
+            <groupId>com.inschos</groupId>
+            <artifactId>dock-api</artifactId>
+            <version>${inschos.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.3.1.RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- hprose -->
-        <dependency>
-            <groupId>org.hprose</groupId>
-            <artifactId>hprose-java</artifactId>
-            <version>2.0.36</version>
+            <version>4.3.11.RELEASE</version>
         </dependency>
 
     </dependencies>
+
+    <repositories>
+        <!-- 配置nexus远程仓库 -->
+        <repository>
+            <id>nexus</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://122.14.202.146:9099/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <!-- 配置从哪个仓库中下载构件，即jar包 -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://122.14.202.146:9099/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+
     <profiles>
         <!--开发环境-->
         <profile>
@@ -145,6 +88,9 @@
             <properties>
                 <environment>development</environment>
             </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
         <profile>
             <!--测试环境-->
@@ -159,9 +105,6 @@
             <properties>
                 <environment>local</environment>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
         <profile>
             <!--生成环境-->
@@ -171,6 +114,8 @@
             </properties>
         </profile>
     </profiles>
+
+
     <build>
         <finalName>proposal</finalName>
         <plugins>
@@ -217,5 +162,6 @@
             </resource>
         </resources>
     </build>
+
 
 </project>

@@ -1,4 +1,4 @@
-package com.inschos.proposal.controller.bean;
+package com.inschos.proposal.access.http.controller.bean;
 
 /**
  * Created by IceAnt on 2018/3/27.

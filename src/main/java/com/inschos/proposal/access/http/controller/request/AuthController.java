@@ -1,6 +1,6 @@
-package com.inschos.proposal.controller.request;
+package com.inschos.proposal.access.http.controller.request;
 
-import com.inschos.proposal.controller.action.AuthenticateAction;
+import com.inschos.proposal.access.http.controller.action.AuthenticateAction;
 import com.inschos.proposal.kit.HttpKit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

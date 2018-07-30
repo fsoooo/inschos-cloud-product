@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="httpRequestHandlerAdapter"
+          class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+
+    <bean id="hproseHttpServiceEventExporter"
+          class="org.springframework.remoting.hprose.HproseHttpServiceEventExporter"/>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/rpc/insure">insureService</prop>
+                <prop key="/rpc/auth">payAuthService</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--bean -->
+    <bean name="insureService"
+          class="org.springframework.remoting.hprose.HproseHttpServiceExporter">
+        <property name="event" ref="hproseHttpServiceEventExporter"/>
+        <property name="debug" value="${rpc.hprose.debug}"/>
+        <!-- 实现-->
+        <property name="service" ref="insureServiceImpl"/>
+        <!-- 接口-->
+        <property name="serviceInterface"
+                  value="com.inschos.dock.api.InsureService"/>
+    </bean>
+
+    <bean name="payAuthService"
+          class="org.springframework.remoting.hprose.HproseHttpServiceExporter">
+        <property name="event" ref="hproseHttpServiceEventExporter"/>
+        <property name="debug" value="${rpc.hprose.debug}"/>
+        <!-- 实现-->
+        <property name="service" ref="authenticateServiceImpl"/>
+        <!-- 接口-->
+        <property name="serviceInterface"
+                  value="com.inschos.dock.api.PayAuthService"/>
+    </bean>
+
+
+
+</beans>

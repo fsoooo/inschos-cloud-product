@@ -1,7 +1,7 @@
-package com.inschos.proposal.controller.action;
+package com.inschos.proposal.access.http.controller.action;
 
-import com.inschos.proposal.controller.bean.AuthenticateBean;
-import com.inschos.proposal.controller.bean.BaseResponse;
+import com.inschos.proposal.access.http.controller.bean.AuthenticateBean;
+import com.inschos.proposal.access.http.controller.bean.BaseResponse;
 import com.inschos.proposal.kit.JsonKit;
 import com.inschos.proposal.kit.StringKit;
 import com.inschos.proposal.model.Bank;
