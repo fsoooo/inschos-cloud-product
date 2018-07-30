@@ -1,5 +1,8 @@
 package com.inschos.proposal.remote.action;
 
+import com.inschos.dock.bean.InsureBean;
+import com.inschos.dock.bean.PayBean;
+import com.inschos.dock.bean.PersonBean;
 import com.inschos.proposal.kit.*;
 import com.inschos.proposal.logic.TcpClientNocar;
 import com.inschos.proposal.model.Bank;
@@ -144,8 +147,32 @@ public class InsureRemote {
         }
     }
 
-    public void insure(){
+    public String insure(InsureBean insureBean, PayBean payBean){
+        TcpClientNocar client = new TcpClientNocar();
+        String charsetName = Charset.defaultCharset().displayName();
+        logger.debug("system charset displayName {}", charsetName);
+        client.setEncoding(charsetName);
+        client.setHeadBeforeLength("");
 
+        client.setHeadAfterLength(StringUtils.rightPad(this.s, 7) + "gs0007");
+        client.setLengthHeadSize(6);
+        client.setLengthHeadPad(TcpClientNocar.PAD_RIGHT);
+        client.setLengthHeadPadChar(" ");
+        boolean isRequestSuccess = false;
+        String errMsg = null;
+        try {
+
+            L.log.info("warranty_uuid {}",payBean.payNo);
+            String call = client.call(getHost(), getPort(), getRequestXml(insureBean,payBean));
+            if(L.log.isInfoEnabled()){
+                L.log.info("response {}",call);
+            }
+
+            return call;
+        } catch (Exception e) {
+            logger.error("insure call error", e);
+        }
+        return null;
     }
 
     public String query() {
@@ -281,6 +308,95 @@ public class InsureRemote {
         insuredDto.occupationCode = "";
         insuredDto.physicalExamination = "0";
         tyInsProposalRequest.mainDto.insuredDtoList.add(insuredDto);
+
+        String displayName = Charset.defaultCharset().displayName();
+        String head = String.format(bodyHead, displayName);
+        L.log.debug("head {}", head);
+        return head + XmlKit.bean2Xml(tyInsProposalRequest);
+
+    }
+
+    private String getRequestXml(InsureBean insureBean, PayBean payBean) {
+        TYInsProposalBean.TYInsProposalRequest tyInsProposalRequest = generateDefaultRequest();
+        // TODO: 2018/3/27
+        long tradingTime = TimeKit.currentTimeMillis();
+        tyInsProposalRequest.requestHeadDto.tradeTime = TimeKit.format("yyyyMMddHHmmss", tradingTime);
+        tyInsProposalRequest.mainDto.methodNo = "30070101";
+        tyInsProposalRequest.mainDto.provinceCode = "21";
+        tyInsProposalRequest.mainDto.areaCode = "2101";
+        tyInsProposalRequest.mainDto.addresscode = "510000";
+        tyInsProposalRequest.mainDto.houseAddress = _toUrlEncode(insureBean.policyholder.address);
+
+        tyInsProposalRequest.mainDto.inputDate = TimeKit.format("yyyy-MM-dd", tradingTime);
+        tyInsProposalRequest.mainDto.startDate = TimeKit.format("yyyy-MM-dd", insureBean.startTime);
+//        tyInsProposalRequest.mainDto.startHour = String.valueOf(TimeKit.get(Calendar.HOUR, warranty.start_time));
+        tyInsProposalRequest.mainDto.startHour = "0";
+        tyInsProposalRequest.mainDto.endDate = TimeKit.format("yyyy-MM-dd", insureBean.endTime);
+//        tyInsProposalRequest.mainDto.endHour = String.valueOf(TimeKit.get(Calendar.HOUR, warranty.end_time - 1) + 1);
+        tyInsProposalRequest.mainDto.endHour = "24";
+
+
+        tyInsProposalRequest.mainDto.idCard = toEncrypt(insureBean.policyholder.cardCode);
+        //todo  url de
+        tyInsProposalRequest.mainDto.owner = toEncrypt(_toUrlEncode(insureBean.policyholder.name));
+        tyInsProposalRequest.mainDto.cardNo = toEncrypt(payBean.bankData.bankCode);
+        tyInsProposalRequest.mainDto.phone = toEncrypt(payBean.bankData.phone);
+
+
+        tyInsProposalRequest.mainDto.channelDto.channelCode = "190000";
+        tyInsProposalRequest.mainDto.channelDto.channelTradeCode = "1900020";
+        tyInsProposalRequest.mainDto.channelDto.channelTradeSerialNo = "201803C1001300000219";
+        tyInsProposalRequest.mainDto.channelDto.channelTradeDate = TimeKit.format("yyyyMMddHHmmss", tradingTime);
+
+        //投保人信息
+
+        tyInsProposalRequest.mainDto.insuredAppliDto.insuredAppliType = "1";
+        tyInsProposalRequest.mainDto.insuredAppliDto.insuredAppliName = _toUrlEncode(insureBean.policyholder.name);
+        tyInsProposalRequest.mainDto.insuredAppliDto.insuredIdentity = "01";
+        tyInsProposalRequest.mainDto.insuredAppliDto.identifyType = tranCardType(insureBean.policyholder.cardType);
+        tyInsProposalRequest.mainDto.insuredAppliDto.identifyNumber = insureBean.policyholder.cardCode;
+        tyInsProposalRequest.mainDto.insuredAppliDto.linkMobile = insureBean.policyholder.phone;
+        tyInsProposalRequest.mainDto.insuredAppliDto.sex = transSex(insureBean.policyholder.sex);
+
+        tyInsProposalRequest.mainDto.insuredAppliDto.email = insureBean.policyholder.email;
+        tyInsProposalRequest.mainDto.insuredAppliDto.appliAddress = _toUrlEncode(insureBean.policyholder.address);
+
+
+        String birth = null;
+
+        String birthByIdCard = ICCardKit.getBirthByIdCard(insureBean.policyholder.cardCode);
+        if (birthByIdCard != null && birthByIdCard.length() >= 8) {
+            birth = birthByIdCard.substring(0, 4) + "-" + birthByIdCard.substring(4, 6) + "-" + birthByIdCard.substring(6, 8);
+        }
+        int age = ICCardKit.getAgeByIdCard(insureBean.policyholder.cardCode);
+
+        tyInsProposalRequest.mainDto.insuredAppliDto.birth = birth;
+        tyInsProposalRequest.mainDto.insuredAppliDto.age = String.valueOf(age);
+
+        //被保人
+
+
+        if(insureBean.recognizees!=null){
+            for (PersonBean recognizee : insureBean.recognizees) {
+                TYInsProposalBean.InsuredDto insuredDto = new TYInsProposalBean.InsuredDto();
+                insuredDto.insuredType = "1";
+                insuredDto.insuredName = _toUrlEncode(recognizee.name);
+                insuredDto.identifyType = tranCardType(recognizee.cardType);
+                insuredDto.identifyNumber = recognizee.cardCode;
+                insuredDto.linkMobile = recognizee.phone;
+                insuredDto.sex = transSex(recognizee.sex);
+                insuredDto.birth = birth;
+                insuredDto.email = recognizee.email;
+                insuredDto.insuredAddress = _toUrlEncode(recognizee.address);
+                insuredDto.age = String.valueOf(age);
+                insuredDto.relationSerialType = "01";
+                insuredDto.occupationCode = "";
+                insuredDto.physicalExamination = "0";
+                tyInsProposalRequest.mainDto.insuredDtoList.add(insuredDto);
+            }
+        }
+
+
 
         String displayName = Charset.defaultCharset().displayName();
         String head = String.format(bodyHead, displayName);
