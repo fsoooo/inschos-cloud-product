@@ -124,7 +124,7 @@
 
 
     <build>
-        <finalName>proposal</finalName>
+        <finalName>dock-yd</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
